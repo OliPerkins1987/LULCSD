@@ -22,7 +22,8 @@ setMethod('get_output', 'output', function(x, mod){
   if(from != 'stocks') {stop('Model outputs must be drawn from a model stock')}
   
   x@o_current_val <- mod@stocks[[which(unlist(
-                      lapply(mod@stocks, function(x) {x@s_name})) == x@o_from_stocks)]]@s_parameters[[x@o_from_var]]
+                      lapply(mod@stocks, 
+                        function(x) {x@s_name})) == x@o_from_stocks)]]@s_parameters[[x@o_from_var]]
   
   
   x@o_outputs[[mod@run$step]] <- x@o_current_val 

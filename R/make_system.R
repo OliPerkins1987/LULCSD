@@ -32,8 +32,14 @@ stocks_from_key <- function(key, parse_flows = T) {
       
       } else if(grepl('parameters', col)) {
         
-      attr(s, col)[key[[col]][r]] <- 0
+        par <- gsub(' ', '', unlist(str_split(key[[col]][r], ',')))
         
+        for(p in par) {
+        
+      attr(s, col)[p] <- 0
+        
+        }
+      
       }
       
     }

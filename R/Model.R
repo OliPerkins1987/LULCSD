@@ -63,7 +63,7 @@ setMethod("scheduler", "model", function(x, ...) {
   ### run flows
   for(i in 1:length(x@flows)) {
     
-    x@flows[[i]]<- get_flow_args(x@flows[[i]], x)
+    x@flows[[i]]<- get_flow_args(x@flows[[i]], x, parse_args = F)
     x@flows[[i]]<- run_flow(x@flows[[i]])
     x           <- set_flow_output(x@flows[[i]], x)
     

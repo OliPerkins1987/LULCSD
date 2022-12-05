@@ -7,7 +7,8 @@
 
 #' @export
 setClass('stock', 
-  slots=list(s_name="character", s_id="character",
+  slots=list(s_name="character", 
+   s_id="character", s_family = "character",
    s_flows_out = "character", s_flows_in = "character", 
     s_parameters = "list"))
 

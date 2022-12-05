@@ -6,20 +6,43 @@
 ###############################################################################
 
 #' @export
-setClass('flow', 
-    slots=list(f_name="character", f_id="character",
-        f_from_stocks = "character", f_to_stocks = "character", 
-          f_function = "character", f_values = "list"))
+flow <- setClass('flow', 
+          slots=list(f_name="character", f_id="character",
+           f_from_stocks = "character", f_to_stocks = "character", 
+            f_function = "character", f_values = "list"))
 
 
 ### helpers
+#' @export
 setGeneric("check_flow_function", function(x) standardGeneric("check_flow_function"))
 setMethod("check_flow_function", "flow", function(x){typeof(get(x@f_function)) == 'closure'})
     
+setGeneric("parse_flow_args", function(x, taxon) standardGeneric("parse_flow_args"))
+setMethod("parse_flow_args", "flow", function(x, taxon) {
+  
+  for(f in 1:length(x@f_values$inputs)) {
+    
+    if(taxon[f] == 'inputs') {
+      
+      x@f_values$inputs[[f]] <- list(current = x@f_values$input[[f]]@i_current_val, 
+                                    data = x@f_values$input[[f]]@i_data)
+      
+    } else if(taxon[f] == 'stocks') {
+      
+      x@f_values$inputs[[f]] <- x@f_values$input[[f]]@s_parameters
+      
+    }
+    
+  }
+  
+  x
+  
+})
+
 
 ### getters
-setGeneric("get_flow_args", function(x, mod) standardGeneric("get_flow_args"))
-setMethod("get_flow_args", "flow", function(x, mod) {
+setGeneric("get_flow_args", function(x, mod, parse_args) standardGeneric("get_flow_args"))
+setMethod("get_flow_args", "flow", function(x, mod, parse_args = T) {
   
   f_args            <- names(formals(get(x@f_function)))
   tax               <- arg_parser(mod, f_args)
@@ -48,6 +71,13 @@ setMethod("get_flow_args", "flow", function(x, mod) {
   
   result
   x@f_values$inputs <- result
+  
+  if(parse_args == T) {
+    
+    x <- parse_flow_args(x, tax)
+    
+  }
+  
   x
 
 })
