@@ -87,7 +87,7 @@ setMethod("run_mod", "model", function(x) {
 
   x@run$first_step <- x@run$step
   
-  for(i in x@run$step:x@run$nsteps) {
+  for(i in 1:x@run$nsteps) {
     
     x <- scheduler(x)
     

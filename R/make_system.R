@@ -14,7 +14,9 @@ stocks_from_key <- function(key, parse_flows = T) {
     
     if(key$s_type[r] == 'stock') {
             
-          s <- new('stock')
+          s <- init_stock(name = character(), id = character(), family = character(), 
+                      flows_out = character(), flows_in = character(), 
+                      internal_pars = character(), parameters = list())
           
     } else if(key$s_type[r] == 'family_stock') {
       
