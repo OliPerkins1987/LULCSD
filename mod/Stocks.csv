@@ -1,0 +1,6 @@
+﻿s_type,s_name,s_family,s_id,s_flow_out,s_flow_in,s_parameters
+stock,s_cereals,cropland,s1,s_cereals,i_demand_cereals,"s_area, s_income"
+stock,s_veg,cropland,s2,s_veg,i_demand_veg,"s_area, s_income"
+stock,s_dairy,grassland,s3,s_dairy,i_demand_dairy,"s_area, s_income"
+stock,s_rg,grassland,s4,s_rg,i_demand_rg,"s_area, s_income"
+stock,s_forest,forest,s5,s_forest,i_demand_forest,"s_area, s_income"

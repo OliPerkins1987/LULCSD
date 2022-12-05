@@ -1,0 +1,4 @@
+﻿i_type,i_name,i_id,i_to,i_dat_type
+input,i_demand,i1,f_land_allocation,non_spat
+input,i_nursery,i2,f_nursery_partitioner,non_spat
+input,i_private_timber_production,i3,f_timber_production,non_spat
