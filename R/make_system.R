@@ -186,7 +186,15 @@ outputs_from_key <- function(key) {
     
     for(col in colnames(key)) {
       
+      if(grepl('from_stocks', col)) {
+        
+        attr(i, col) <- gsub(' ', '', unlist(strsplit(key[[col]][r], ',')))
+        
+      } else {
+      
       attr(i, col) <- key[[col]][r]
+      
+      }
       
     }
     

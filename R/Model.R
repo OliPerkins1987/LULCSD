@@ -13,8 +13,8 @@
 init_model <- function(stock_list, flows_list, input_list, output_list, parameter_list,
                        run   = list(nsteps = 1, step = 1),
                        taxon = list('s_' = 'stocks', 
-                       'f_' = 'flows','p_' = 'parameters', 
-                          'i_' = 'inputs', 'o_' = 'outputs')) {
+                       'f_' = 'flows', 'ff' = 'family_flows', 'p_' = 'parameters', 
+                          'i_' = 'inputs', 'o_' = 'outputs'), load_dat = T) {
   
   mod <- .model(stocks = stock_list, 
                 flows  = flows_list, 
@@ -22,6 +22,13 @@ init_model <- function(stock_list, flows_list, input_list, output_list, paramete
                 outputs = output_list,
                 parameters = parameter_list, 
                 run = run, taxon = taxon)
+  
+  if(load_dat == T) {
+    
+    mod@inputs <- lapply(mod@inputs, load_input, path = NA)
+    mod@stocks <- lapply(mod@stocks, load_stock_data, path = NA)
+    
+  }
   
   mod
   
@@ -56,16 +63,44 @@ setGeneric("scheduler", function(x, ...) standardGeneric("scheduler"))
 setMethod("scheduler", "model", function(x, ...) {
   
   ### update inputs
+  x@inputs <- lapply(x@inputs, update_input, x)
   
-  x@inputs      <- lapply(x@inputs, update_input, x)
+  ### update stock pars
+  x@stocks <- lapply(x@stocks, update_internal_par, x)
   
+  ####################################
   
   ### run flows
+  
+  ####################################
+  
   for(i in 1:length(x@flows)) {
     
+    ### get
+    if(class(x@flows[[i]])[1] == 'family_flow') {
+      
+    x@flows[[i]]<- get_ff_args(x@flows[[i]], x, parse_args = F)
+      
+    } else {
+    
     x@flows[[i]]<- get_flow_args(x@flows[[i]], x, parse_args = F)
+    
+    }
+    
+    ### run
     x@flows[[i]]<- run_flow(x@flows[[i]])
-    x           <- set_flow_output(x@flows[[i]], x)
+    
+    
+    ### set
+    if(class(x@flows[[i]])[1] == 'family_flow') {
+    
+    x <- set_ff_output(x@flows[[i]], x)
+    
+    } else {
+    
+    x <- set_flow_output(x@flows[[i]], x)
+      
+    }
     
   }
   

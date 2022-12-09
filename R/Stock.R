@@ -31,15 +31,25 @@ init_stock <- function(name, id, family, flows_out, flows_in,
 #' @export
 setGeneric("load_stock_data", function(x, path) standardGeneric("load_stock_data"))
 setMethod("load_stock_data", "stock", function(x, path) {
+  
+  if(x@s_internal_pars[1] != "") {
+  
+    for(p in 1:length(x@s_internal_pars)) {
       
-  if(is.na(path)) {
+      x@s_parameters[x@s_internal_pars[p]] <- 0
+      
+    }
     
-    path <- paste0(x@s_name, '.csv')
+    if(is.na(path)) {
+    
+      path <- paste0(x@s_name, '.csv')
 
-  }
+    }
   
     x@s_parameters$internal <- read.csv(path)
-
+    
+  }
+    
   x
   
 })
@@ -67,7 +77,7 @@ setMethod('update_internal_par', 'stock', function(x, mod){
     
   } else if(length(dim(df)) == 3) {
     
-    x@i_current_val <- df[[which(names(df)) == x@s_internal_pars[i]]][, , step]
+    x@s_parameters[x@s_internal_pars[i]] <- df[[which(names(df)) == x@s_internal_pars[i]]][, , step]
     
   } else {
     
