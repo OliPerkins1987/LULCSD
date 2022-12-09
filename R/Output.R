@@ -39,7 +39,8 @@ setMethod('get_output', 'output', function(x, mod){
     
   }
   
-  x@o_outputs[[mod@run$step]] <- x@o_current_val 
+  x@o_current_val             <- o
+  x@o_outputs[[(1 +(mod@run$step - mod@run$first_step))]] <- x@o_current_val 
   
   x
   
