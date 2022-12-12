@@ -26,7 +26,11 @@ init_stock <- function(name, id, family, flows_out, flows_in,
 }
 
 
+###############################################################################
 
+### Generics for loading data, initialising and updating internal pars
+
+###############################################################################
 
 #' @export
 setGeneric("load_stock_data", function(x, path) standardGeneric("load_stock_data"))
@@ -53,6 +57,23 @@ setMethod("load_stock_data", "stock", function(x, path) {
   x
   
 })
+
+#' @export
+setGeneric('init_pars', function(x, isv) standardGeneric('init_pars'))
+setMethod('init_pars', 'stock', function(x, isv) {
+  
+  r <- which(isv[, 1] == x@s_name)
+  
+  for(i in r) {
+    
+    x@s_parameters[isv[i, 2]] <- isv[i,3]
+    
+  }
+  
+  x
+  
+})
+
 
 
 #' @export

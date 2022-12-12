@@ -28,13 +28,18 @@ stocks_from_key <- function(key, parse_flows = T) {
     
     for(col in colnames(key)) {
       
-      if(!grepl('parameters', col)) {
+      if(!grepl('parameters', col) & !grepl('internal_pars', col)) {
       
       attr(s, col) <- key[[col]][r]
       
-      } else if(grepl('parameters', col)) {
+      } else if(grepl('parameters', col) | grepl('internal_pars', col)) {
         
-        par <- gsub(' ', '', unlist(strsplit(key[[col]][r], ',')))
+        par          <- gsub(' ', '', unlist(strsplit(key[[col]][r], ',')))
+        
+        if(grepl('internal_pars', col) & length(par) > 0) {
+        attr(s, col) <- par
+        
+        } else if(grepl('parameters', col)) {
         
         for(p in par) {
         
@@ -42,8 +47,10 @@ stocks_from_key <- function(key, parse_flows = T) {
         
         }
       
-      }
+       }
       
+     }
+        
     }
     
     

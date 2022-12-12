@@ -10,7 +10,8 @@
                     taxon = "list"))
 
 #' @export
-init_model <- function(stock_list, flows_list, input_list, output_list, parameter_list,
+init_model <- function(stock_list, flows_list, input_list, output_list, 
+                       parameter_list, initial_stock_vals, #model parameters and initial values of stocks
                        run   = list(nsteps = 1, step = 1),
                        taxon = list('s_' = 'stocks', 
                        'f_' = 'flows', 'ff' = 'family_flows', 'p_' = 'parameters', 
@@ -27,7 +28,8 @@ init_model <- function(stock_list, flows_list, input_list, output_list, paramete
     
     mod@inputs <- lapply(mod@inputs, load_input, path = NA)
     mod@stocks <- lapply(mod@stocks, load_stock_data, path = NA)
-    
+    mod@stocks <- lapply(mod@stocks, init_pars, isv = initial_stock_vals)
+      
   }
   
   mod
