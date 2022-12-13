@@ -146,4 +146,59 @@ setMethod("reset_time", "model", function(x) {
   
 })
 
+#'@export
+
+setGeneric("spin_up",function(x, n) "spin_up")
+setMethod("spin_up", "model", function(x, n){
+  
+  ### update inputs
+  x@inputs <- lapply(x@inputs, update_input, x)
+  
+  ### update stock pars
+  x@stocks <- lapply(x@stocks, update_internal_par, x)
+  
+  for(spin in 1:n) {
+  
+  
+  for(i in 1:length(x@flows)) {
+    
+    ### get
+    if(class(x@flows[[i]])[1] == 'family_flow') {
+      
+      x@flows[[i]]<- get_ff_args(x@flows[[i]], x, parse_args = F)
+      
+    } else {
+      
+      x@flows[[i]]<- get_flow_args(x@flows[[i]], x, parse_args = F)
+      
+    }
+    
+    ### run
+    x@flows[[i]]<- run_flow(x@flows[[i]])
+    
+    
+    ### set
+    if(class(x@flows[[i]])[1] == 'family_flow') {
+      
+      x <- set_ff_output(x@flows[[i]], x)
+      
+    } else {
+      
+      x <- set_flow_output(x@flows[[i]], x)
+      
+      }
+    
+    }
+  
+    print(x@stocks[[1]]@s_parameters$s_area)
+    
+  }
+  
+  x
+  
+})
+
+
+
+
 
