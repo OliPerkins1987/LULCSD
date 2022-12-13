@@ -1,2 +1,11 @@
 ﻿o_type,o_name,o_id,o_from_stocks,o_from_var
-output,o_timber,o1,s_forest,forest_area
+output,o_cereals,o1,"s_cereals, s_lfa_cereals",s_production
+output,o_veg,o2,"s_veg, s_lfa_veg",s_production
+output,o_milk,o3,"s_dairy, s_lfa_dairy",s_production
+output,s_meat,o4,"s_rg, s_lfa_rg",s_production
+output,o_timber,o5,"s_forest, s_lfa_forest",s_production
+output,o_cereals_area,o1,"s_cereals, s_lfa_cereals",s_area
+output,o_veg_area,o2,"s_veg, s_lfa_veg",s_area
+output,o_dairy_area,o3,"s_dairy, s_lfa_dairy",s_area
+output,s_rg_area,o4,"s_rg, s_lfa_rg",s_area
+output,o_forest_area,o5,"s_forest, s_lfa_forest",s_area

@@ -1,4 +1,6 @@
 ﻿i_type,i_name,i_id,i_to,i_dat_type
-input,i_demand,i1,f_land_allocation,non_spat
-input,i_nursery,i2,f_nursery_partitioner,non_spat
-input,i_private_timber_production,i3,f_timber_production,non_spat
+input,i_demand_cereals,i1,"s_cereals, s_lfa_cereals",non_spat
+input,i_demand_veg,i2,s_veg,non_spat
+input,i_demand_dairy,i3,"s_dairy, s_lfa_dairy",non_spat
+input,i_demand_rg,i4,"s_rg, s_lfa_rg",non_spat
+input,i_demand_forest,i5,"s_forest, s_lfa_forest",non_spat

@@ -1,0 +1,6 @@
+﻿s_type,s_name,s_id,s_flow_out,s_flow_in,s_parameters
+stock,s_nursery_stock,s1,f_nursery_partitioner,i_nursery,
+stock,s_forest,s2,f_forest_production,"f_nursery_partitioner, f_farm_woodland",forest_area
+stock,s_cropland,s3,f_farm_woodland,"f_farm_woodland, i_demand",cropland_area
+stock,s_pasture,s4,f_farm_woodland,"f_farm_woodland, i_demand",pasture_area
+stock,s_farm_woodland,s5,f_cropland,"f_cropland, i_nursery, i_demand",farm_woodland_area
