@@ -63,7 +63,9 @@ production <- function(ff_, p_price_weight) {
     
     sf <- lapply(sf, function(x) {
       
-      x@s_parameters$s_price <- x@s_parameters$s_price + ((p_pw *  x@s_parameters$s_surplus) / x@s_parameters$s_price)
+      x@s_parameters$s_price <- x@s_parameters$s_price + (x@s_parameters$s_price  * (0-x@s_parameters$s_surplus) * p_pw)
+      
+      x@s_parameters$s_price <- ifelse(x@s_parameters$s_price < 0, 0, x@s_parameters$s_price)
       
       x
       

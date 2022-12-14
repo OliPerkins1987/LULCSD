@@ -1,6 +1,0 @@
-﻿f_type,f_name,f_id,f_from_stocks,f_to_stocks,f_function
-flow,f_nursery_partitioner,f1,i_nursery,"s_forest, s_farm_woodland",nursery_partitioner
-flow,f_forest_production,f2,s_forest,s_forest,forest_production
-flow,f_timber_production,f3,s_forest,o_timber,timber_production
-family_flow,f_land_allocation,f4,"s_cropland, s_forest, s_pasture, i_demand","s_cropland, s_forest, s_pasture",land_allocation
-flow,f_farm_woodland,f5,"s_cropland, s_pasture",s_farm_woodland,farm_woodland

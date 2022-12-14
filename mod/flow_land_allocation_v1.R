@@ -10,20 +10,33 @@
 
 la <- function(sf) {
   
-  sf <- lapply(sf, function(x) {
+  Proj.area <- unlist(lapply(sf, function(x) {
     
     delta <- x@s_parameters$s_income_pressure
     
     delta <- ifelse(length(delta) == 0, 0, delta)
     
-    x@s_parameters$s_area    <- x@s_parameters$s_area + delta
+    return((x@s_parameters$s_area + delta))
+
+  }))
     
-    x
+  if(any(Proj.area < 0)) {
     
-  })
+    neg.area <- sum((Proj.area[which(Proj.area < 0)]))
+    n.pos    <- length(Proj.area[Proj.area >= 0])
     
-  sf
+    Proj.area<- ifelse(Proj.area < 0, 0, Proj.area - (neg.area/n.pos))
+    
+  }
   
+  for(i in 1:length(sf)) {
+  
+  sf[[i]]@s_parameters$s_area <- Proj.area[i]
+  
+  }
+   
+  sf
+   
 }
 
 land_allocation <- function(ff_) {

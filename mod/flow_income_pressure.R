@@ -22,7 +22,7 @@ calc_income <- function(sf) {
             
             s <- y@s_parameters
             
-            y@s_parameters$s_income <- s$s_yield * s$s_price * s$s_size   
+            y@s_parameters$s_income <- s$s_yield * s$s_price * s$s_size *s$s_margin
             
             y
             
@@ -112,7 +112,7 @@ income_pressure <- function(ff_, p_land_trans) {
 
   ### how do we ensure results are returned in the right order?
   
-    return(list(ff_ = list(unlist(s.fam), c('s_income_pressure'))))
+    return(list(ff_ = list(unlist(s.fam), c('s_income', 's_income_pressure'))))
   
 }
 
