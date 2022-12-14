@@ -106,11 +106,7 @@ setMethod("scheduler", "model", function(x, ...) {
     
   }
   
-  
-  ### stock functions
-  ### PASS
-  
-  
+
   ### update outputs
   x@outputs <- lapply(x@outputs, get_output, x)
   
@@ -157,9 +153,13 @@ setMethod("spin_up", "model", function(x, n){
   ### update stock pars
   x@stocks <- lapply(x@stocks, update_internal_par, x)
   
+  #out <- list()
+  
   for(spin in 1:n) {
   
   
+    
+    
   for(i in 1:length(x@flows)) {
     
     ### get
@@ -189,12 +189,20 @@ setMethod("spin_up", "model", function(x, n){
       }
     
     }
-  
-    print(x@stocks[[1]]@s_parameters$s_area)
+    
+    
+    #out[[spin]] <- list(price = unlist(lapply(1:4, function(i){x@stocks[[i]]@s_parameters$s_price})), 
+    #                 area  = unlist(lapply(1:4, function(i){x@stocks[[i]]@s_parameters$s_area})))
+    
+    #print(x@stocks[[2]]@s_parameters$s_area + x@stocks[[1]]@s_parameters$s_area)
     
   }
   
+  
+  
   x
+  
+  return(out)
   
 })
 
