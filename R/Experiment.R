@@ -151,7 +151,7 @@ setMethod("select_pars", "experiment", function(e, data, method = 'best', ...) {
       for(i in 2:ncol(x)) {
         
         ### calculate rmse
-        r[[(i-1)]] <- sqrt(mean((x[, i] - x[, 1])^2)) / mean(x[, i])
+        r[[(i-1)]] <- sqrt(mean((x[, i] - x[, 1])^2)) / mean(x[, 1])
         
       }
       
