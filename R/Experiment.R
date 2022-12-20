@@ -167,6 +167,46 @@ setMethod("select_pars", "experiment", function(e, data, method = 'best', ...) {
     return(list(runs   = as.numeric(unlist(lapply(results, names))), 
                 metric = results))
       
+  } else if(method == 'tolerance') {
+  
+  
+    ### ? runs <= threshold
+  
+    ### requires .tolerance (0-inf) & .metric (string c(rmse, mae)) arguments
+    ### !only rmse implemented so far
+    
+    if(is.null(kwargs$.tolerance)) {
+      
+      warning('Null value passed to error tolerance; choosing top 10% of variable means')
+      
+      kwargs$.tolerance <- 0.1
+      
+    }
+    
+    results <- lapply(results, function(x) {
+      
+      
+      r <- list()
+      
+      for(i in 2:ncol(x)) {
+        
+        ### calculate rmse
+        r[[(i-1)]] <- sqrt(mean((x[, i] - x[, 1])^2)) / mean(x[, 1])
+        
+      }
+      
+      names(r) <- 1:length(r)
+      r        <- unlist(r)
+      r        <- r[r <= kwargs$.tolerance]
+      
+    })
+    
+    
+    gc()
+    
+    return(list(runs   = as.numeric(unlist(lapply(results, names))), 
+                metric = results))
+    
   }
   
   
