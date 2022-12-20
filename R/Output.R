@@ -27,7 +27,7 @@ setMethod('get_output', 'output', function(x, mod){
     
     o[f] <- mod@stocks[[which(unlist(
                       lapply(mod@stocks, 
-                        function(x) {x@s_name})) == x@o_from_stocks[f])]]@s_parameters[x@o_from_var[f]]
+                        function(y) {y@s_name})) == x@o_from_stocks[f])]]@s_parameters[x@o_from_var]
   
   }
   
