@@ -20,6 +20,10 @@ la <- function(sf) {
 
   }))
     
+  ### stop area going negative for a system
+  
+  Proj.area <- Proj.area[!is.na(Proj.area)]
+  
   if(any(Proj.area < 0)) {
     
     neg.area <- sum((Proj.area[which(Proj.area < 0)]))

@@ -22,7 +22,16 @@ calc_income <- function(sf) {
             
             s <- y@s_parameters
             
-            y@s_parameters$s_income <- s$s_yield * s$s_price * s$s_size *s$s_margin
+            if(is.null(s$s_size)) {
+              
+              xs <- unlist(lapply(x, function(z) {z@s_parameters$s_size}))
+              xs <- mean(xs[!is.null(xs)], na.rm = T)
+              
+              s$s_size <- xs
+              
+            }
+            
+            y@s_parameters$s_income <- ((s$s_yield * s$s_price * s$s_margin) + s$s_subsidy) * s$s_size 
             
             y
             
@@ -101,8 +110,9 @@ income_pressure <- function(ff_, p_land_trans) {
         
       } else {
       
-    s.fam[[i]][[j]]@s_parameters$s_income_pressure <- s.fam[[i]][[j]]@s_parameters$s_income_pressure * 
-                                                          p_land_trans * s.fam[[i]][[unlist(s.small[[i]])]]@s_parameters$s_area
+    s.fam[[i]][[j]]@s_parameters$s_income_pressure <- (s.fam[[i]][[j]]@s_parameters$s_income_pressure * 
+                                                          p_land_trans *
+                                                           s.fam[[i]][[unlist(s.small[[i]])]]@s_parameters$s_area)
     
         }
     

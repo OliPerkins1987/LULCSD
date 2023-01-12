@@ -1,16 +1,19 @@
 ﻿s_type,s_name,s_family,s_id,s_flow_out,s_flow_in,s_parameters,s_internal_pars
-stock,s_cereals,cropland,s1,"s_cereals, s_cereals_prod",i_demand_cereals,"s_area, s_income","s_yield, s_prod_adjust, s_size"
-stock,s_veg,cropland,s2,"s_veg, s_veg_prod",i_demand_veg,"s_area, s_income","s_yield, s_prod_adjust, s_size"
-stock,s_dairy,grassland,s3,"s_dairy, s_milk_prod",i_demand_dairy,"s_area, s_income","s_yield, s_prod_adjust, s_size"
-stock,s_rg,grassland,s4,"s_rg, s_meat_prod",i_demand_rg,"s_area, s_income","s_yield, s_prod_adjust, s_size"
-stock,s_forest,forest,s5,"s_forest, s_timber_prod",i_demand_forest,"s_area, s_income",s_yield
-stock,s_lfa_cereals,lfa_cropland,s6,"s_lfa_cereals, s_cereals_prod",i_demand_cereals,"s_area, s_income","s_yield, s_prod_adjust, s_size"
-stock,s_lfa_veg,lfa_cropland,s7,"s_lfa_veg, s_veg_prod",i_demand_veg,"s_area, s_income","s_yield, s_prod_adjust, s_size"
-stock,s_lfa_dairy,lfa_grassland,s8,"s_lfa_dairy, s_milk_prod",i_demand_dairy,"s_area, s_income","s_yield, s_prod_adjust, s_size"
-stock,s_lfa_rg,lfa_grassland,s9,"s_lfa_rg, s_meat_pro",i_demand_rg,"s_area, s_income","s_yield, s_prod_adjust, s_size"
-stock,s_lfa_forest,lfa_forest,s10,"s_lfa_forest, s_timber_prod",i_demand_forest,"s_area, s_income",s_yield
-stock,s_cereals_prod,production,s11,o_cereals_price,"s_cereals, s_lfa_cereals",,
-stock,s_veg_prod,production,s12,o_veg_price,"s_veg, s_lfa_veg",,
-stock,s_milk_prod,production,s13,o_milk_price,"s_dairy, s_lfa_dairy",,
-stock,s_meat_prod,production,s14,o_meat_price,"s_rg, s_lfa_rg",,
-stock,s_timber_prod,production,s15,o_timber_price,"s_forest, s_lfa_forest",,
+stock,s_cereals,cropland,s1,"s_cereals, s_cereals_prod",i_demand_cereals,"s_area, s_income","s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_veg,cropland,s2,"s_veg, s_veg_prod",i_demand_veg,"s_area, s_income","s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_farm_woodland_cropland,cropland,s3,s_timber_prod,"i_demand_forest, i_demand_carbon",,"s_commodity, s_yield, s_prod_adjust, s_subsidy"
+stock,s_biomass_cropland,cropland,s4,s_biomass_prod,"i_demand_biomass, i_demand_carbon",,"s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_dairy,grassland,s5,"s_dairy, s_milk_prod",i_demand_dairy,"s_area, s_income","s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_rg,grassland,s6,"s_rg, s_meat_prod",i_demand_rg,"s_area, s_income","s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_farm_woodland_grassland,grassland,s7,s_timber_prod,"i_demand_forest, i_demand_carbon",,"s_commodity, s_yield, s_prod_adjust, s_subsidy"
+stock,s_biomass_grassland,grassland,s8,s_biomass_prod,"i_demand_biomass, i_demand_carbon",,"s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_forest,forest,s9,"s_forest, s_timber_prod",i_demand_forest,"s_area, s_income","s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_lfa_cereals,lfa_cropland,s10,"s_lfa_cereals, s_cereals_prod",i_demand_cereals,"s_area, s_income","s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_lfa_veg,lfa_cropland,s11,"s_lfa_veg, s_veg_prod",i_demand_veg,"s_area, s_income","s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_lfa_farm_woodland_cropland,lfa_cropland,s12,s_timber_prod,"i_demand_forest, i_demand_carbon",,"s_commodity, s_yield, s_prod_adjust, s_subsidy"
+stock,s_lfa_biomass_cropland,lfa_cropland,s13,s_biomass_prod,"i_demand_biomass, i_demand_carbon",,"s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_lfa_dairy,lfa_grassland,s14,"s_lfa_dairy, s_milk_prod",i_demand_dairy,"s_area, s_income","s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_lfa_rg,lfa_grassland,s15,"s_lfa_rg, s_meat_pro",i_demand_rg,"s_area, s_income","s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_lfa_farm_woodland_grassland,lfa_grassland,s16,s_timber_prod,"i_demand_forest, i_demand_carbon",,"s_commodity, s_yield, s_prod_adjust, s_subsidy"
+stock,s_lfa_biomass_grassland,lfa_grassland,s17,s_biomass_prod,"i_demand_biomass, i_demand_carbon",,"s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"
+stock,s_lfa_forest,lfa_forest,s18,"s_lfa_forest, s_timber_prod",i_demand_forest,"s_area, s_income","s_commodity, s_yield, s_prod_adjust, s_size, s_subsidy"

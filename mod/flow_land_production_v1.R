@@ -29,8 +29,8 @@ production <- function(ff_, p_price_weight) {
     # push back grouped by land cover
     
     ### regroup
-    lc    <- unique(gsub('lfa_', '', gsub('s_', '', unlist(lapply(unlist(sf), function(x){x@s_name})))))
-    sf.lc <- split(unlist(sf), factor(lc, levels = unique(lc), ordered = T)) 
+    commod    <- unlist(lapply(unlist(sf), function(x){x@s_parameters$s_commodity}))
+    sf.lc     <- split(unlist(sf), factor(commod, levels = unique(commod), ordered = T)) 
     
     ### calculate surplus
     p   <- lapply(sf.lc, function(x) {

@@ -3,7 +3,9 @@ flow,f_demand_cereals,f1,i_demand_cereals,"s_cereals, s_lfa_cereals",demand_cere
 flow,f_demand_veg,f2,i_demand_veg,s_veg,demand_veg
 flow,f_demand_dairy,f3,i_demand_dairy,"s_dairy, s_lfa_dairy",demand_dairy
 flow,f_demand_rg,f4,i_demand_rg,"s_rg, s_lfa_rg",demand_rg
-flow,f_demand_forest,f5,i_demand_forest,"s_forest, s_lfa_forest",demand_forest
-family_flow,ff_land_allocation,ff6,"cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest","cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest",land_allocation
-family_flow,ff_income_pressure,ff7,"cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest","cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest",income_pressure
-family_flow,ff_production,ff8,"cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest","cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest",production
+flow,f_demand_hardwood,f5,i_demand_hardwood,"s_forest, s_lfa_forest",demand_hardwood
+flow,f_demand_softwood,f6,i_demand_softwood,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",demand_softwood
+flow,f_demand_biomass,f7,i_demand_biomass,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",demand_biomass
+family_flow,ff_land_allocation,ff8,"cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest","cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest",land_allocation
+family_flow,ff_income_pressure,ff9,"cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest","cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest",income_pressure
+family_flow,ff_production,ff10,"cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest","cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest",production

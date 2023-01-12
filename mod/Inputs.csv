@@ -3,4 +3,7 @@ input,i_demand_cereals,i1,"s_cereals, s_lfa_cereals",non_spat
 input,i_demand_veg,i2,s_veg,non_spat
 input,i_demand_dairy,i3,"s_dairy, s_lfa_dairy",non_spat
 input,i_demand_rg,i4,"s_rg, s_lfa_rg",non_spat
-input,i_demand_forest,i5,"s_forest, s_lfa_forest",non_spat
+input,i_demand_hardwood,i5,"s_forest, s_lfa_forest",non_spat
+input,i_demand_softwood,i6,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",non_spat
+input,i_demand_carbon,i7,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland s_lfa_farm_woodland_grassland, s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",non_spat
+input,i_demand_biomass,i8,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",non_spat
