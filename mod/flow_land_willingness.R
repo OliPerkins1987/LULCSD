@@ -70,6 +70,8 @@ calc_CDR_bool <- function(sf, ifa) {
     
     lapply(x, function(y) {
     
+      if(y@s_parameters$s_CDR == 0) {
+      
       s      <- y@s_parameters
     
       ha.dat <- data.frame(income = s$s_income_dist, 
@@ -120,6 +122,12 @@ calc_CDR_bool <- function(sf, ifa) {
       
       y@s_parameters$CDR_bool    <- probs
 
+      }  else if(y@s_parameters$s_CDR == 1) {
+        
+        y@s_parameters$CDR_bool <- NA
+        
+      }
+      
       y
     })
     
@@ -137,6 +145,8 @@ calc_CDR_rate <- function(sf, ifa) {
   sf <- lapply(sf, function(x) {
     
     lapply(x, function(y) {
+      
+      if(y@s_parameters$s_CDR == 0) {
       
       s      <- y@s_parameters
       
@@ -163,9 +173,16 @@ calc_CDR_rate <- function(sf, ifa) {
       
       ### adjust rate of CDR for grazing
       
-      graze.par  <- ifelse(grepl('grassland', y@s_family), 1.465, 0.682)
+      graze.par  <- ifelse(grepl('_rg', y@s_name), 1.465, 0.682)
       
       y@s_parameters$CDR_rate <- probs * graze.par
+      
+    }  else if(y@s_parameters$s_CDR == 1) {
+      
+      y@s_parameters$CDR_rate <- NA
+      
+    }
+      
       
       y
     })
@@ -187,6 +204,8 @@ calc_CDR_hectares <- function(sf, ifa) {
     
     lapply(x, function(y) {
       
+      if(y@s_parameters$s_CDR == 0) {
+      
       s      <- y@s_parameters
       
       ha.dat <- data.frame(income = s$s_income_dist, 
@@ -195,16 +214,21 @@ calc_CDR_hectares <- function(sf, ifa) {
       
       ha  <- list()
       
-      ### !!!this is not elegant
-      ### parameters from empirical tree model
-      
-      set.seed(1987)
-      
+      ### combine calculations
+
       ha[[1]] <- sum(mean(ha.dat$size[ha.dat$size < 25]) * s$CDR_rate[1:2]) * sum(s$CDR_bool[1:4]) 
       ha[[2]] <- sum(mean(ha.dat$size[ha.dat$size >= 25]) * s$CDR_rate[3])  * sum(s$CDR_bool[5:11]) 
       
-      y@s_parameters$s_CDR_hectares <- sum(unlist(ha)) / mean(ha.dat$size)
+      y@s_parameters$s_CDR_hectares <- sum(unlist(ha)) 
 
+      }  else if(y@s_parameters$s_CDR == 1) {
+        
+        y@s_parameters$s_CDR_hectares <- NA
+        
+      }
+      
+      y
+      
     })
     
   })

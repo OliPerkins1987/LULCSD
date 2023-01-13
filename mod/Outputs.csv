@@ -1,19 +1,12 @@
 ﻿o_type,o_name,o_id,o_from_stocks,o_from_var
-output,o_cereals,o1,"s_cereals, s_lfa_cereals",s_production
-output,o_veg,o2,"s_veg, s_lfa_veg",s_production
-output,o_milk,o3,"s_dairy, s_lfa_dairy",s_production
-output,o_meat,o4,"s_rg, s_lfa_rg",s_production
-output,o_timber,o5,"s_forest, s_lfa_forest",s_production
-output,o_softwood,o6,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",s_production
-output,o_cereals_area,o8,"s_cereals, s_lfa_cereals",s_area
-output,o_veg_area,o9,"s_veg, s_lfa_veg",s_area
-output,o_dairy_area,o10,"s_dairy, s_lfa_dairy",s_area
-output,o_rg_area,o11,"s_rg, s_lfa_rg",s_area
-output,o_forest_area,o12,"s_forest, s_lfa_forest",s_area
-output,o_softwood_area,o13,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",s_area
-output,o_cereals_price,o15,s_cereals,s_price
-output,o_veg_price,o16,s_veg,s_price
-output,o_dairy_price,o17,s_dairy,s_price
-output,o_rg_price,o18,s_rg,s_price
-output,o_forest_price,o19,s_forest,s_price
-output,o_softwood_price,o20,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",s_price
+output,o_cereal_LULC_ha,o1,s_cereals,s_CDR_hectares
+output,o_veg_LULC_ha,o2,s_veg,s_CDR_hectares
+output,o_dairy_LULC_ha,o3,s_dairy,s_CDR_hectares
+output,o_rg_LULC_ha,o4,s_rg,s_CDR_hectares
+output,o_lfa_cereal_LULC_ha,o5,s_lfa_cereals,s_CDR_hectares
+output,o_lfa_dairy_LULC_ha,o6,s_lfa_dairy,s_CDR_hectares
+output,o_lfa_rg_LULC_ha,o7,s_lfa_rg,s_CDR_hectares
+output,o_fw_c_will,o8,s_farm_woodland_cropland,s_CDR_will
+output,o_fw_g_will,o9,s_farm_woodland_grassland,s_CDR_will
+output,o_fw_lfa_c_will,o10,s_lfa_farm_woodland_cropland,s_CDR_will
+output,o_fw_lfa_g_will,o11,s_lfa_farm_woodland_grassland,s_CDR_will

@@ -31,7 +31,7 @@ calc_income <- function(sf) {
               
             }
             
-            y@s_parameters$s_income <- ((s$s_yield * s$s_price * s$s_margin) + s$s_subsidy) * s$s_size 
+            y@s_parameters$s_income <- ((s$s_yield * s$s_price * s$s_margin) + s$s_subsidy + s$s_carbon_income) * s$s_size 
             
             y
             
