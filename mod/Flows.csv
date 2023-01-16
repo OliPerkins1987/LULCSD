@@ -12,3 +12,4 @@ family_flow,ff_income_pressure,ff10,"cropland, grassland, forest, lfa_cropland, 
 family_flow,ff_production,ff11,"cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest","cropland, grassland, forest, lfa_cropland, lfa_grassland, lfa_forest",production
 family_flow,ff_land_willingness,ff12,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",land_willingness
 family_flow,ff_CDR_willingness,ff13,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",CDR_willingness
+family_flow,ff_trust_in_govt,ff14,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",trust_in_govt

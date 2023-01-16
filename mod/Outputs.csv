@@ -10,3 +10,10 @@ output,o_fw_c_will,o8,s_farm_woodland_cropland,s_CDR_will
 output,o_fw_g_will,o9,s_farm_woodland_grassland,s_CDR_will
 output,o_fw_lfa_c_will,o10,s_lfa_farm_woodland_cropland,s_CDR_will
 output,o_fw_lfa_g_will,o11,s_lfa_farm_woodland_grassland,s_CDR_will
+output,o_cereal_tig,o12,s_cereals,s_trust_in_govt
+output,o_veg_tig,o13,s_veg,s_trust_in_govt
+output,o_dairy_tig,o14,s_dairy,s_trust_in_govt
+output,o_rg_tig,o15,s_rg,s_trust_in_govt
+output,o_lfa_cereal_tig,o16,s_lfa_cereals,s_trust_in_govt
+output,o_lfa_dairy_tig,o17,s_lfa_dairy,s_trust_in_govt
+output,o_lfa_rg_tig,o18,s_lfa_rg,s_trust_in_govt
