@@ -17,3 +17,9 @@ output,o_rg_tig,o15,s_rg,s_trust_in_govt
 output,o_lfa_cereal_tig,o16,s_lfa_cereals,s_trust_in_govt
 output,o_lfa_dairy_tig,o17,s_lfa_dairy,s_trust_in_govt
 output,o_lfa_rg_tig,o18,s_lfa_rg,s_trust_in_govt
+output,o_cereals_area,o19,"s_cereals, s_lfa_cereals",s_area
+output,o_veg_area,o20,"s_veg, s_lfa_veg",s_area
+output,o_dairy_area,o21,"s_dairy, s_lfa_dairy",s_area
+output,o_rg_area,o22,"s_rg, s_lfa_rg",s_area
+output,o_forest_area,o23,"s_forest, s_lfa_forest",s_area
+output,o_softwood_area,o24,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",s_area

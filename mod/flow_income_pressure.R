@@ -50,6 +50,7 @@ calc_ip <- function(sf) {
   sf <- lapply(sf, function(x) {
     
     income <- unlist(lapply(x, function(z) {z@s_parameters$s_income}))
+    income <- income[which(sapply(x, function(z) {z@s_parameters$s_area})> 0)]
     
     lapply(x, function(y, ip = income) {
       

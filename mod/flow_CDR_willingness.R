@@ -47,7 +47,7 @@ calc_CDR_will <- function(sf, p_CDR) {
       
       if(y@s_parameters$s_CDR == 1) { 
         
-        s            <- y@s_parameters
+        s   <- y@s_parameters
         
         ### sigmoid uptake curve
         y@s_parameters$s_CDR_will <- c(1/(1+exp(-p_CDR[1] * (s$s_CDR_frac - p_CDR[2]))))

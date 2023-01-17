@@ -1,11 +1,11 @@
 ﻿Object,Parameter,Value
-s_cereals,s_area,2605
+s_cereals,s_area,3292
 s_veg,s_area,151
-s_farm_woodland_cropland,s_area,40
+s_farm_woodland_cropland,s_area,30
 s_biomass_cropland,s_area,0
 s_dairy,s_area,801
 s_rg,s_area,1435
-s_farm_woodland_grassland,s_area,240
+s_farm_woodland_grassland,s_area,230
 s_biomass_grassland,s_area,0
 s_forest,s_area,0
 s_lfa_cereals,s_area,13
