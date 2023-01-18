@@ -47,7 +47,7 @@ setMethod("run_experiment", "experiment", function(e) {
   
  if(e@n_cores > 1) {
    
-   cl <- foreach::makeCluster(3)
+   cl <- foreach::makeCluster(e@n_cores)
    foreach::registerDoParallel(cl)
    
    foreach::foreach(run = 1:e@n_runs) %dopar% {
@@ -120,12 +120,20 @@ setMethod("select_pars", "experiment", function(e, data, method = 'best', ...) {
     
   }
   
+  if(!is.null(kwargs$.scale) & kwargs$.scale == T) {
+    
+    results <- lapply(results, function(x) {data.frame(apply(x, 2, function(y) {(y-mean(x[, 1]))/sd(x[, 1])}))})
+    
+  }
+  
   
   ###########################################
   
   ### rejection sampling
   
   ###########################################
+  
+  
   
   ### ?best n runs?
   
@@ -151,20 +159,22 @@ setMethod("select_pars", "experiment", function(e, data, method = 'best', ...) {
       for(i in 2:ncol(x)) {
         
         ### calculate rmse
-        r[[(i-1)]] <- sqrt(mean((x[, i] - x[, 1])^2)) / mean(x[, 1])
+        r[[(i-1)]] <- sqrt(mean((x[, i] - x[, 1])^2))
         
       }
       
       names(r) <- 1:length(r)
       r        <- unlist(r)
-      r        <- unlist(r[order(unlist(r))][1:floor(kwargs$.frac * length(r))])
       
       })
     
-    
+
+    results       <- setNames(apply(data.frame(results), 1, mean), 1:nrow(data.frame(results)))
+    results       <- results[order(results)][1:floor(kwargs$.frac * length(results))]
+     
     gc()
     
-    return(list(runs   = as.numeric(unlist(lapply(results, names))), 
+    return(list(runs   = names(results), 
                 metric = results))
       
   } else if(method == 'tolerance') {
@@ -177,7 +187,7 @@ setMethod("select_pars", "experiment", function(e, data, method = 'best', ...) {
     
     if(is.null(kwargs$.tolerance)) {
       
-      warning('Null value passed to error tolerance; choosing top 10% of variable means')
+      warning('Null value passed to error tolerance; choosing 10% of variable means')
       
       kwargs$.tolerance <- 0.1
       
@@ -191,7 +201,7 @@ setMethod("select_pars", "experiment", function(e, data, method = 'best', ...) {
       for(i in 2:ncol(x)) {
         
         ### calculate rmse
-        r[[(i-1)]] <- sqrt(mean((x[, i] - x[, 1])^2)) / mean(x[, 1])
+        r[[(i-1)]] <- sqrt(mean((x[, i] - x[, 1])^2)) / sd(x[, 1])
         
       }
       
