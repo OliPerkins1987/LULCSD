@@ -1,5 +1,5 @@
 ﻿Object,Parameter,Value
-s_cereals,s_area,3292
+s_cereals,s_area,3967.5
 s_veg,s_area,151
 s_farm_woodland_cropland,s_area,30
 s_biomass_cropland,s_area,0
@@ -8,7 +8,7 @@ s_rg,s_area,1435
 s_farm_woodland_grassland,s_area,230
 s_biomass_grassland,s_area,0
 s_forest,s_area,0
-s_lfa_cereals,s_area,13
+s_lfa_cereals,s_area,73.5
 s_lfa_veg,s_area,0
 s_lfa_farm_woodland_cropland,s_area,0
 s_lfa_biomass_cropland,s_area,0
@@ -21,7 +21,7 @@ s_cereals,s_price,108
 s_veg,s_price,475
 s_farm_woodland_cropland,s_price,91
 s_biomass_cropland,s_price,0
-s_dairy,s_price,0.249
+s_dairy,s_price,25
 s_rg,s_price,74
 s_farm_woodland_grassland,s_price,91
 s_biomass_grassland,s_price,0
@@ -30,7 +30,7 @@ s_lfa_cereals,s_price,108
 s_lfa_veg,s_price,475
 s_lfa_farm_woodland_cropland,s_price,91
 s_lfa_biomass_cropland,s_price,0
-s_lfa_dairy,s_price,0.249
+s_lfa_dairy,s_price,25
 s_lfa_rg,s_price,74
 s_lfa_farm_woodland_grassland,s_price,91
 s_lfa_biomass_grassland,s_price,0
@@ -39,7 +39,7 @@ s_cereals,s_margin,0.46
 s_veg,s_margin,0.16
 s_farm_woodland_cropland,s_margin,0.7
 s_biomass_cropland,s_margin,0
-s_dairy,s_margin,0.85
+s_dairy,s_margin,0.16
 s_rg,s_margin,0.81
 s_farm_woodland_grassland,s_margin,0.7
 s_biomass_grassland,s_margin,0
@@ -48,7 +48,7 @@ s_lfa_cereals,s_margin,0.46
 s_lfa_veg,s_margin,0
 s_lfa_farm_woodland_cropland,s_margin,0.7
 s_lfa_biomass_cropland,s_margin,0
-s_lfa_dairy,s_margin,0.85
+s_lfa_dairy,s_margin,0.16
 s_lfa_rg,s_margin,0.81
 s_lfa_farm_woodland_grassland,s_margin,0.7
 s_lfa_biomass_grassland,s_margin,0
