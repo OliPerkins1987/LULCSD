@@ -23,3 +23,11 @@ output,o_dairy_area,o21,"s_dairy, s_lfa_dairy",s_area
 output,o_rg_area,o22,"s_rg, s_lfa_rg",s_area
 output,o_forest_area,o23,"s_forest, s_lfa_forest",s_area
 output,o_softwood_area,o24,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",s_area
+output,o_biomass_area,o25,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",s_area
+output,o_cereals_price,o26,s_cereals,s_price
+output,o_veg_price,o27,s_veg,s_price
+output,o_dairy_price,o28,s_dairy,s_price
+output,o_rg_price,o29,s_rg,s_price
+output,o_forest_price,o30,s_forest,s_price
+output,o_softwood_price,o31,s_farm_woodland_cropland,s_price
+output,o_biomass_price,o32,s_biomass_cropland,s_price

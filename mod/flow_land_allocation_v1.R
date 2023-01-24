@@ -89,6 +89,38 @@ get_behaviour_pars <- function(sf, behaviour_offset,
 }
 
 
+############################################################
+
+### Get logistics constraints
+
+############################################################
+
+get_logistics_pars <- function(sf) {
+  
+  logic_con <- lapply(sf, function(x) {
+    
+    df <- mk_trans_matrix(x, nr = 1)
+    
+    #########################################
+    ### populate logstics_contraint matrix
+    #########################################
+    
+    for(i in 1:length(x)) {
+      
+      ### CDR-specific logistics
+      df[, i] <- ifelse(is.null(x[[i]]@s_parameters$s_logistics_constraint), NA, 
+                        x[[i]]@s_parameters$s_logistics_constraint)
+    }
+    
+    df <- data.frame(t(apply(df, 2, function(z) {ifelse(is.na(z), Inf, z)})))
+    df
+    
+  })
+  
+  return(logic_con)
+  
+}
+
 ###########################################################
 
 ### Economic transition matrices
@@ -97,7 +129,7 @@ get_behaviour_pars <- function(sf, behaviour_offset,
 
 calc_econ_flows <- function(sf) {
   
-  sf <- lapply(sf, function(x) {
+  econ.flows <- lapply(sf, function(x) {
     
     df <- mk_trans_matrix(x, nr = length(x))
     
@@ -106,8 +138,6 @@ calc_econ_flows <- function(sf) {
     #################################
     
     for(i in 1:length(x)) {
-      
-      ### CDR-specific willingness
       
       econ.val  <- sapply(x, function(z) {z@s_parameters$s_income_pressure})
       
@@ -130,7 +160,7 @@ calc_econ_flows <- function(sf) {
     
   })
   
-  return(sf)
+  return(econ.flows)
   
 }
 
@@ -144,9 +174,15 @@ calc_econ_flows <- function(sf) {
 ###############################################################
 
 
-combine_mods <- function(sf, behaviour, econ) {
+combine_mods <- function(sf, behaviour, econ, logistics) {
   
   for(i in 1:length(sf)) {
+    
+    ###############################################
+    
+    ### behaviour
+    
+    ###############################################
     
     ### apply initial constraint
     LULC <- econ[[i]] * behaviour[[i]]$willingness
@@ -163,6 +199,34 @@ combine_mods <- function(sf, behaviour, econ) {
       LULC[j, ] <- ifelse(LULC[j, ] < 0 & abs(LULC[j, ]) > LULC[, j], 0-LULC[, j], LULC[j, ])
 
     }
+    
+    
+    ##################################################
+    
+    ### Logistics
+    
+    ##################################################
+    
+    ### apply logistics ceilling
+    for(j in 1:length(sf[[i]])) {
+      
+      if(sum(LULC[, j][which(LULC[, j] > 0)]) > logistics[[i]][, j]) {
+        
+        LULC[, j] <- ifelse(LULC[, j] > 0, 
+                       LULC[, j] / (sum(LULC[, j][which(LULC[, j] > 0)])/ logistics[[i]][, j]), 
+                       LULC[, j])
+        
+        
+      }
+      
+    }
+  
+    
+    ##################################################
+    
+    ### update LULC
+    
+    ##################################################
     
     for(j in 1:length(sf[[i]])) {
       
@@ -226,14 +290,15 @@ calc_la <- function(sf) {
 
 ###############################################################
 
-land_allocation <- function(ff_, p_behaviour_intercept, p_tig_beta, p_max_CDR_delta, p_land_trans) {
+land_allocation <- function(ff_, p_behaviour_intercept, p_tig_beta, p_max_CDR_delta) {
   
   
   if(any(sapply(unlist(ff_), function(z) {!is.null(z@s_parameters$s_CDR_will)}))) {
   
-  b.df    <- get_behaviour_pars(ff_, p_behaviour_intercept,p_tig_beta, p_max_CDR_delta, p_land_trans)
+  b.df    <- get_behaviour_pars(ff_, p_behaviour_intercept,p_tig_beta, p_max_CDR_delta)
+  l.df    <- get_logistics_pars(ff_)
   econ.df <- calc_econ_flows(ff_)
-  s.fam   <- combine_mods(ff_, b.df, econ.df)
+  s.fam   <- combine_mods(ff_, b.df, econ.df, l.df)
   
   } else {
     
