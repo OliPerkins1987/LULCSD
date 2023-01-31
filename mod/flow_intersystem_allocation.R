@@ -8,20 +8,22 @@
 
 ### ff_ should be a list of stocks by family
 
-inter_la <- function(sf, plt) {
+inter_la <- function(sf, plt, cdp) {
   
   for(i in 1:length(sf)) {
     
-    sf[[i]][[1]]@s_parameters$crop_dairy <- ((sf[[i]][[1]]@s_parameters$s_income / sf[[i]][[2]]@s_parameters$s_income)-1) * plt
-    sf[[i]][[2]]@s_parameters$crop_dairy <- ((sf[[i]][[2]]@s_parameters$s_income / sf[[i]][[1]]@s_parameters$s_income)-1) * plt
+    sf[[i]][[1]]@s_parameters$crop_dairy <- ifelse((sf[[i]][[1]]@s_parameters$s_income / sf[[i]][[2]]@s_parameters$s_income) < 1, 
+                                              -1/(sf[[i]][[1]]@s_parameters$s_income / sf[[i]][[2]]@s_parameters$s_income), 
+                                              (sf[[i]][[1]]@s_parameters$s_income / sf[[i]][[2]]@s_parameters$s_income))
+    
+    
+    sf[[i]][[2]]@s_parameters$crop_dairy <- ifelse(sf[[i]][[1]]@s_parameters$crop_dairy != 1, 0-sf[[i]][[1]]@s_parameters$crop_dairy, 1)
     
     small <- which.min(unlist(lapply(sf[[i]], function(x) {x@s_parameters$crop_dairy})))
     big   <- which.max(unlist(lapply(sf[[i]], function(x) {x@s_parameters$crop_dairy})))
     
-    sf[[i]][[small]]@s_parameters$crop_dairy <- 0 - (sf[[i]][[big]]@s_parameters$crop_dairy * sf[[i]][[small]]@s_parameters$s_area)
-    sf[[i]][[big]]@s_parameters$crop_dairy   <- sf[[i]][[big]]@s_parameters$crop_dairy * sf[[i]][[small]]@s_parameters$s_area
-    
-
+    sf[[i]][[small]]@s_parameters$crop_dairy <- 0 - (sf[[i]][[big]]@s_parameters$crop_dairy * sf[[i]][[small]]@s_parameters$s_area * plt * cdp)
+    sf[[i]][[big]]@s_parameters$crop_dairy   <- sf[[i]][[big]]@s_parameters$crop_dairy * sf[[i]][[small]]@s_parameters$s_area * plt * cdp
 
   Proj.area <- unlist(lapply(sf[[i]], function(x) {
     
@@ -59,14 +61,14 @@ inter_la <- function(sf, plt) {
 }
 
 inter_system_allocation <- function(s_cereals, s_lfa_cereals, 
-                                    s_dairy, s_lfa_dairy, p_land_trans) {
+                                    s_dairy, s_lfa_dairy, p_land_trans, p_trans_crop_dairy) {
   
   s.fam   <- list('Other' = list(s_cereals, s_dairy), 
                   'LFA'   = list(s_lfa_cereals, s_lfa_dairy))
   
   if(any(unlist(lapply(unlist(s.fam), function(z) {z@s_parameters$s_income}))> 0)) {
   
-  s.fam   <- inter_la(s.fam, plt = p_land_trans)
+  s.fam   <- inter_la(s.fam, plt = p_land_trans, cdp = p_trans_crop_dairy)
   
   }
   

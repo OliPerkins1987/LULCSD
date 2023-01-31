@@ -66,19 +66,24 @@ get_behaviour_pars <- function(sf, behaviour_offset,
                         (x[[i]]@s_parameters$s_trust_in_govt + tig_beta)
       
       df$tig[, i] <- 1-(x[[i]]@s_parameters$s_subsidy/x[[i]]@s_parameters$s_income) * x[[i]]@s_parameters$s_trust_in_govt
+      df$tig[, i] <- ifelse(df$tig[, i] < 0 & !is.na(df$tig[, i]), 0, df$tig[, i])
+      
+      df$tig[i, ] <- df$tig[, i]
       
         }
         
       }
     
-    ### set non-CDR transitions to 1
-    df$willingness <- data.frame(apply(df$willingness, 2, function(z){ifelse(is.na(z), 1, z)}))  
+    ### set non-CDR & intra-CDR transitions to 1
+    df$willingness                    <- data.frame(apply(df$willingness, 2, function(z){ifelse(is.na(z), 1, z)}))  
+    df$willingness[CDR.key, CDR.key]  <- 1
     
     ### set ceiling on non_CDR transitions to inf
     df$CDR_max     <- data.frame(apply(df$CDR_max, 2, function(z){ifelse(is.na(z), 99999, z)}))  
     
     ### set non-CDR ig in govt to 1
-    df$tig         <- data.frame(apply(df$tig, 2, function(z){ifelse(is.na(z), 1, z)})) 
+    df$tig                   <- data.frame(apply(df$tig, 2, function(z){ifelse(is.na(z), 1, z)})) 
+    df$tig[CDR.key, CDR.key] <- 1
     
     df
   
@@ -88,6 +93,38 @@ get_behaviour_pars <- function(sf, behaviour_offset,
   
 }
 
+############################################################
+
+### Get Environmental constraints
+
+############################################################
+
+get_envrionmental_constraint <- function(sf) {
+
+
+  env.con <- lapply(sf, function(x) {
+  
+    df <- mk_trans_matrix(x, nr = length(x))
+  
+    #################################
+    ### populate econ flows matrix
+    #################################
+  
+    for(i in 1:length(x)) {
+    
+      df[, i]  <- x[[i]]@s_parameters$s_env_suit
+    
+    }
+  
+    df <- data.frame(df)
+  
+    df
+  
+  })
+
+return(env.con)
+
+}
 
 ############################################################
 
@@ -112,7 +149,8 @@ get_logistics_pars <- function(sf) {
                         x[[i]]@s_parameters$s_logistics_constraint)
     }
     
-    df <- data.frame(t(apply(df, 2, function(z) {ifelse(is.na(z), Inf, z)})))
+    df <- data.frame(t(apply(df, 2, function(z) {ifelse(is.na(z), Inf, 
+                                                  ifelse(z < 0, 0, z))})))
     df
     
   })
@@ -139,23 +177,12 @@ calc_econ_flows <- function(sf) {
     
     for(i in 1:length(x)) {
       
-      econ.val  <- sapply(x, function(z) {z@s_parameters$s_income_pressure})
-      
-      if(econ.val[i] < 0 & !is.na(econ.val[i])) {
-        
-        econ.distr <- ifelse(econ.val > 0, econ.val/sum(econ.val[econ.val>0], na.rm = T), 0)
-        df[, i]    <- econ.val[i] * econ.distr
-        
-      } else if (econ.val[i] > 0 & !is.na(econ.val[i])) {
-        
-        econ.distr <- ifelse(econ.val < 0, econ.val/sum(econ.val[econ.val<0], na.rm = T), 0)
-        df[, i]    <- econ.val[i] * econ.distr
-        
-      }
+      df[, i]  <- x[[i]]@s_parameters$s_income_pressure
       
     }
     
-    df <- data.frame(apply(df, 2, function(z) {ifelse(is.na(z), 0, z)}))
+    df <- data.frame(df)
+    
     df
     
   })
@@ -173,8 +200,7 @@ calc_econ_flows <- function(sf) {
 
 ###############################################################
 
-
-combine_mods <- function(sf, behaviour, econ, logistics) {
+combine_mods <- function(sf, behaviour, econ, logistics, enviro) {
   
   for(i in 1:length(sf)) {
     
@@ -184,11 +210,31 @@ combine_mods <- function(sf, behaviour, econ, logistics) {
     
     ###############################################
     
-    ### apply initial constraint
-    LULC <- econ[[i]] * behaviour[[i]]$willingness
+    CDR.key                    <- sapply(sf[[i]], function(z) {z@s_parameters$s_CDR == 1})
+    LULC <- econ[[i]]
     
+    ### apply CDR uptake constraint
+    for(j in 1:length(sf[[i]])) {
+      
+      LULC[CDR.key, j] <- ifelse((LULC[CDR.key, j] <0) & !(j %in% CDR.key), LULC[CDR.key, j] * behaviour[[i]]$willingness[CDR.key, j], 
+                                 LULC[CDR.key, j])
+      
+      LULC[j, CDR.key] <- ifelse((LULC[j, CDR.key] >0) & !(j %in% CDR.key), LULC[j, CDR.key] * behaviour[[i]]$willingness[j, CDR.key], 
+                                 LULC[j, CDR.key])
+      
+      
+    }
+
     ### apply trust in govt constraint
-    LULC <- LULC * behaviour[[i]]$tig
+    for(j in 1:length(sf[[i]])) {
+    
+    LULC[CDR.key, j] <- ifelse((LULC[CDR.key, j] <0) & !(j %in% CDR.key), LULC[CDR.key, j] * behaviour[[i]]$tig[CDR.key, j], 
+                               LULC[CDR.key, j])
+    
+    LULC[j, CDR.key] <- ifelse((LULC[j, CDR.key] >0) & !(j %in% CDR.key), LULC[j, CDR.key] * behaviour[[i]]$tig[j, CDR.key], 
+                               LULC[j, CDR.key])
+    
+    }
     
     ### apply ceiling on CDR uptake
     for(j in 1:length(sf[[i]])) {
@@ -216,11 +262,29 @@ combine_mods <- function(sf, behaviour, econ, logistics) {
                        LULC[, j] / (sum(LULC[, j][which(LULC[, j] > 0)])/ logistics[[i]][, j]), 
                        LULC[, j])
         
-        
+        LULC[j, ] <- (0 - LULC[, j])
       }
       
     }
-  
+    
+    ##################################################
+    
+    ## Apply environmental constraint
+    
+    ##################################################
+    
+    for(j in 1:length(sf[[i]])) {
+
+        LULC[, j] <- ifelse(LULC[, j] > 0, 
+                            LULC[, j] * enviro[[i]][, j], 
+                            LULC[, j])
+        
+        LULC[j, ] <- (0 - LULC[, j])
+      }
+      
+    
+    }
+    
     
     ##################################################
     
@@ -230,11 +294,10 @@ combine_mods <- function(sf, behaviour, econ, logistics) {
     
     for(j in 1:length(sf[[i]])) {
       
-      sf[[i]][[j]]@s_parameters$s_LULC <- sum(LULC[, j])
+      sf[[i]][[j]]@s_parameters$s_LULC <- as.numeric(LULC[, j])
       
     }
     
-  }
   
   sf
   
@@ -253,7 +316,7 @@ calc_la <- function(sf) {
   
   Proj.area <- unlist(lapply(sf, function(x) {
     
-    delta <- x@s_parameters$s_LULC
+    delta <- sum(x@s_parameters$s_LULC)
     
     delta <- ifelse(length(delta) == 0, 0, delta)
     
@@ -292,13 +355,14 @@ calc_la <- function(sf) {
 
 land_allocation <- function(ff_, p_behaviour_intercept, p_tig_beta, p_max_CDR_delta) {
   
-  
+  ### catches case where model is run from 1st step without initial values
   if(any(sapply(unlist(ff_), function(z) {!is.null(z@s_parameters$s_CDR_will)}))) {
   
   b.df    <- get_behaviour_pars(ff_, p_behaviour_intercept,p_tig_beta, p_max_CDR_delta)
   l.df    <- get_logistics_pars(ff_)
+  env.df  <- get_envrionmental_constraint(ff_)
   econ.df <- calc_econ_flows(ff_)
-  s.fam   <- combine_mods(ff_, b.df, econ.df, l.df)
+  s.fam   <- combine_mods(ff_, b.df, econ.df, l.df, env.df)
   
   } else {
     
@@ -308,7 +372,7 @@ land_allocation <- function(ff_, p_behaviour_intercept, p_tig_beta, p_max_CDR_de
   
   s.fam   <- lapply(s.fam, calc_la)
   
-  return(list(ff_ = list(unlist(s.fam), c('s_area'))))
+  return(list(ff_ = list(unlist(s.fam), c('s_area', 's_LULC'))))
   
 }
 

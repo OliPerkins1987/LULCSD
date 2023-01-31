@@ -49,43 +49,60 @@ calc_ip <- function(sf) {
   
   sf <- lapply(sf, function(x) {
     
-    income <- unlist(lapply(x, function(z) {z@s_parameters$s_income}))
-    income <- income[which(sapply(x, function(z) {z@s_parameters$s_area})> 0)]
+    income       <- unlist(lapply(x, function(z) {z@s_parameters$s_income}))
+    areas        <- unlist(lapply(x, function(z) {z@s_parameters$s_area})) 
     
-    lapply(x, function(y, ip = income) {
+    lapply(x, function(y, ip = income, base.inc = baseline.inc) {
       
-      y@s_parameters$s_income_pressure <- (y@s_parameters$s_income / mean(ip, na.rm= T)) - 1
+      y@s_parameters$s_income_pressure <- (y@s_parameters$s_income / income)
+      
+      ### catch where area == 0
+      y@s_parameters$s_income_pressure <- ifelse(is.finite(y@s_parameters$s_income_pressure), 
+                                                 y@s_parameters$s_income_pressure, 0)
       
       y
+      
     })
     
+    
   })
-  
   
   sf
   
 }
 
 
-lc_stock <- function(sf) {
+lc_flow <- function(sf, plt) {
   
-  #helper to find supply of less competitive land system for change
+  #calculate econ flows between systems
   
-  land_stock <- lapply(sf, function(x) {
+  for(i in 1:length(sf)) {
     
-                  which.min(unlist(lapply(x, function(y) {
+    econ.LULC <- list()
+    econ.vals <- sapply(sf[[i]], function(z) {z@s_parameters$s_income_pressure})
+    areas     <- sapply(sf[[i]], function(z) {z@s_parameters$s_area})
     
-                    y@s_parameters$s_income
+    inc.mat   <- apply(sapply(sf[[i]], function(z) {z@s_parameters$s_income_pressure}), 2, function(z) {ifelse(z<1 & z != 0, -1/z, z)})
     
-                      })))
+    for(j in 1:ncol(inc.mat)) {
+      
+      for(k in 1:nrow(inc.mat)) {
+        
+        inc.mat[k, j] <- ifelse(inc.mat[k, j] > 1, inc.mat[k, j] * areas[k], 
+                          ifelse(inc.mat[k, j] < 1, inc.mat[k, j] * areas[j], 
+                            0)) * plt
+        
+      }
+      
+      sf[[i]][[j]]@s_parameters$s_income_pressure <- as.numeric(inc.mat[, j])
+      
+    }
+    
+    
   
-                        })
-
-  lapply(land_stock, function(l) {
-    
-    ifelse(length(l) == 0, 0, l)
-    
-        })
+    }
+  
+  return(sf)
   
  }
   
@@ -96,30 +113,8 @@ income_pressure <- function(ff_, p_land_trans) {
 
   s.fam   <- calc_income(ff_)
   s.fam   <- calc_ip(s.fam)
-  s.small <- lc_stock(s.fam) 
+  s.fam   <- lc_flow(s.fam, p_land_trans) 
   
-  ###
-  
-  ### convert price pressure to hectares' change
-  for(i in 1:length(s.fam)) {
-    
-    for(j in 1:length(s.fam[[i]])) {
-    
-      if(unlist(s.small[[i]]) == 0) {
-        
-        s.fam[[i]][[j]]@s_parameters$s_income_pressure <- 0
-        
-      } else {
-      
-    s.fam[[i]][[j]]@s_parameters$s_income_pressure <- (s.fam[[i]][[j]]@s_parameters$s_income_pressure * 
-                                                          p_land_trans *
-                                                           s.fam[[i]][[unlist(s.small[[i]])]]@s_parameters$s_area)
-    
-        }
-    
-      }
-  
-  }
 
   ### how do we ensure results are returned in the right order?
   

@@ -16,11 +16,11 @@ farm_woodland_logistics <- function(s_forest, s_farm_woodland_cropland,
   woodland <- list(s_farm_woodland_cropland, s_farm_woodland_grassland, 
                    s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland)
   
-  woodland <- lapply(woodland, 
-                     function(y) y@s_parameters$s_income_pressure)
+  wood.thresh <- s_forest@s_parameters$s_nursery_available
   
-  wood.thresh <- s.list[grepl('farm_woodland', sapply(s.list, 
-                                                      function(z) {z@s_name}))][[1]]@s_parameters$s_logistics_constraint
+  woodland <- lapply(woodland, 
+                     function(y) sum(y@s_parameters$s_income_pressure))
+  
   
   wood.tot    <- sum(unlist(woodland[which(unlist(woodland) > 0)]))
   
