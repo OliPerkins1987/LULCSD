@@ -27,7 +27,8 @@ calc_income <- function(sf) {
               xs <- unlist(lapply(x, function(z) {z@s_parameters$s_size}))
               xs <- mean(xs[!is.null(xs)], na.rm = T)
               
-              s$s_size <- xs
+              s$s_size              <- xs
+              y@s_parameters$s_size <- xs
               
             }
             
@@ -50,11 +51,14 @@ calc_ip <- function(sf) {
   sf <- lapply(sf, function(x) {
     
     income       <- unlist(lapply(x, function(z) {z@s_parameters$s_income}))
+    inc.per.ha   <- income / unlist(lapply(x, function(z) {z@s_parameters$s_size}))
     areas        <- unlist(lapply(x, function(z) {z@s_parameters$s_area})) 
     
-    lapply(x, function(y, ip = income, base.inc = baseline.inc) {
+    lapply(x, function(y) {
       
-      y@s_parameters$s_income_pressure <- (y@s_parameters$s_income / income)
+      y@s_parameters$s_income_pressure <- mapply(mean, y@s_parameters$s_income / income, 
+                                            ifelse(is.finite((y@s_parameters$s_income / y@s_parameters$s_size) /inc.per.ha), 
+                                                   (y@s_parameters$s_income / y@s_parameters$s_size) /inc.per.ha, 0))
       
       ### catch where area == 0
       y@s_parameters$s_income_pressure <- ifelse(is.finite(y@s_parameters$s_income_pressure), 
@@ -115,10 +119,7 @@ income_pressure <- function(ff_, p_land_trans) {
   s.fam   <- calc_ip(s.fam)
   s.fam   <- lc_flow(s.fam, p_land_trans) 
   
-
-  ### how do we ensure results are returned in the right order?
-  
-    return(list(ff_ = list(unlist(s.fam), c('s_income', 's_income_pressure'))))
+  return(list(ff_ = list(unlist(s.fam), c('s_income', 's_income_pressure'))))
   
 }
 

@@ -31,3 +31,4 @@ output,o_rg_price,o29,s_rg,s_price
 output,o_forest_price,o30,s_forest,s_price
 output,o_softwood_price,o31,s_farm_woodland_cropland,s_price
 output,o_biomass_price,o32,s_biomass_cropland,s_price
+output,o_biomass_carbon,o33,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",s_biomass_carbon

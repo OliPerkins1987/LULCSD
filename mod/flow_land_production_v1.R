@@ -43,9 +43,17 @@ production <- function(ff_, p_price_weight) {
         sf.lc[[i]][[j]]@s_parameters$s_production_combined <- p[[i]]
         
         
+        if(sf.lc[[i]][[j]]@s_parameters$s_demand > 0) {
+        
         surp <- (((sf.lc[[i]][[j]]@s_parameters$s_production_combined - sf.lc[[i]][[j]]@s_parameters$s_demand) / sf.lc[[i]][[j]]@s_parameters$s_demand))
         
         sf.lc[[i]][[j]]@s_parameters$s_surplus <- surp
+        
+        } else {
+          
+          sf.lc[[i]][[j]]@s_parameters$s_surplus <- 0
+          
+        }
           
         }
       

@@ -92,6 +92,19 @@ demand_biomass <- function(s_biomass_cropland, s_biomass_grassland,
 }
 
 
+demand_peat <- function(s_peat_cropland, s_peat_grassland, 
+                           s_lfa_peat_cropland, s_lfa_peat_grassland, i_demand_peat) {
+  
+  
+  ### pass
+  
+  return(list(s_peat_cropland           = list(s_demand = i_demand_peat@i_current_val), 
+              s_peat_grassland          = list(s_demand = i_demand_peat@i_current_val),
+              s_lfa_peat_cropland       = list(s_demand = i_demand_peat@i_current_val), 
+              s_lfa_peat_grassland      = list(s_demand = i_demand_peat@i_current_val)))
+  
+}
+
 
 
 

@@ -144,9 +144,15 @@ get_logistics_pars <- function(sf) {
     
     for(i in 1:length(x)) {
       
+      ### treat peat separately
+      if(!(x[[i]]@s_parameters$s_commodity == 'Peat')) {
+      
       ### CDR-specific logistics
       df[, i] <- ifelse(is.null(x[[i]]@s_parameters$s_logistics_constraint), NA, 
                         x[[i]]@s_parameters$s_logistics_constraint)
+      
+      }
+      
     }
     
     df <- data.frame(t(apply(df, 2, function(z) {ifelse(is.na(z), Inf, 
@@ -158,6 +164,38 @@ get_logistics_pars <- function(sf) {
   return(logic_con)
   
 }
+
+###########################################################
+
+### Account for peat
+
+###########################################################
+
+get_peat_limits <- function(sf) {
+  
+  logic_con <- lapply(sf, function(x) {
+    
+    df       <- mk_trans_matrix(x, nr = 1)
+    Peat.key <- which(sapply(x, function(s) {s@s_parameters$s_commodity}) == 'Peat')
+    
+    
+    #########################################
+    ### populate logstics_contraint matrix
+    #########################################
+    
+    if(length(x[[Peat.key]]@s_parameters$s_logistics_constraint) == ncol(df)) {
+    df[, -Peat.key] <- x[[Peat.key]]@s_parameters$s_logistics_constraint
+    }
+    
+    df <- data.frame(t(apply(df, 2, function(z) {ifelse(is.na(z), Inf, 
+                                                        ifelse(z < 0, 0, z))})))
+    df
+    
+  })
+  
+  
+}
+
 
 ###########################################################
 
@@ -200,7 +238,7 @@ calc_econ_flows <- function(sf) {
 
 ###############################################################
 
-combine_mods <- function(sf, behaviour, econ, logistics, enviro) {
+combine_mods <- function(sf, behaviour, econ, logistics, enviro, peat) {
   
   for(i in 1:length(sf)) {
     
@@ -253,7 +291,7 @@ combine_mods <- function(sf, behaviour, econ, logistics, enviro) {
     
     ##################################################
     
-    ### apply logistics ceilling
+    ### apply logistics ceilling for woodland and biomass
     for(j in 1:length(sf[[i]])) {
       
       if(sum(LULC[, j][which(LULC[, j] > 0)]) > logistics[[i]][, j]) {
@@ -263,6 +301,21 @@ combine_mods <- function(sf, behaviour, econ, logistics, enviro) {
                        LULC[, j])
         
         LULC[j, ] <- (0 - LULC[, j])
+      }
+      
+    }
+    
+    ### account for distribution of peat
+    Peat.key <- which(sapply(sf[[i]], function(s) {s@s_parameters$s_commodity}) == 'Peat')
+    
+    for(j in 1:length(sf[[i]])) {
+      
+      if(abs(LULC[Peat.key, j]) > peat[[i]][, Peat.key]) {
+        
+        LULC[Peat.key, j] <- peat[[i]][, Peat.key]
+        
+        LULC[j, Peat.key] <- (0 - LULC[Peat.key, j])
+        
       }
       
     }
@@ -280,11 +333,9 @@ combine_mods <- function(sf, behaviour, econ, logistics, enviro) {
                             LULC[, j])
         
         LULC[j, ] <- (0 - LULC[, j])
-      }
       
-    
-    }
-    
+        }
+      
     
     ##################################################
     
@@ -296,7 +347,12 @@ combine_mods <- function(sf, behaviour, econ, logistics, enviro) {
       
       sf[[i]][[j]]@s_parameters$s_LULC <- as.numeric(LULC[, j])
       
+      }
+    
+    
+    
     }
+    
     
   
   sf
@@ -361,8 +417,9 @@ land_allocation <- function(ff_, p_behaviour_intercept, p_tig_beta, p_max_CDR_de
   b.df    <- get_behaviour_pars(ff_, p_behaviour_intercept,p_tig_beta, p_max_CDR_delta)
   l.df    <- get_logistics_pars(ff_)
   env.df  <- get_envrionmental_constraint(ff_)
+  p.df    <- get_peat_limits(ff_)
   econ.df <- calc_econ_flows(ff_)
-  s.fam   <- combine_mods(ff_, b.df, econ.df, l.df, env.df)
+  s.fam   <- combine_mods(ff_, b.df, econ.df, l.df, env.df, p.df)
   
   } else {
     
