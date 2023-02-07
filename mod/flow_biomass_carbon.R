@@ -22,14 +22,20 @@ biomass_carbon <- function(ff_) {
         
         if(is.null(z[[s]]@s_parameters$s_LULC)) {
           
-          z[[s]]@s_parameters$s_biomass_carbon <- (z[[s]]@s_parameters$s_biomass_carbon_flux * z[[s]]@s_parameters$s_area) 
+          ### 3.67: tC -> tCO2eq
+          veg.carbon                           <- 3.67 * (z[[s]]@s_parameters$s_yield * z[[s]]@s_parameters$s_area * z[[s]]@s_parameters$s_lca_efficiency)
+          
+          z[[s]]@s_parameters$s_biomass_carbon <- ((z[[s]]@s_parameters$s_biomass_carbon_flux * z[[s]]@s_parameters$s_area) - veg.carbon)
           
         } else {
         
+        ### 3.67: tC -> tCO2eq
+        veg.carbon                           <- 3.67 * (z[[s]]@s_parameters$s_yield * z[[s]]@s_parameters$s_area * z[[s]]@s_parameters$s_lca_efficiency)
+          
         biomass.area   <- z[[s]]@s_parameters$s_LULC
         biomass.area[s]<- z[[s]]@s_parameters$s_area
         
-        z[[s]]@s_parameters$s_biomass_carbon <- (sum(biomass.area * Carbon.weight))
+        z[[s]]@s_parameters$s_biomass_carbon <- (sum(biomass.area * Carbon.weight) - veg.carbon) 
 
         
         }

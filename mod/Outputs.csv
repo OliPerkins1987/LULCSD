@@ -10,25 +10,36 @@ output,o_fw_c_will,o8,s_farm_woodland_cropland,s_CDR_will
 output,o_fw_g_will,o9,s_farm_woodland_grassland,s_CDR_will
 output,o_fw_lfa_c_will,o10,s_lfa_farm_woodland_cropland,s_CDR_will
 output,o_fw_lfa_g_will,o11,s_lfa_farm_woodland_grassland,s_CDR_will
-output,o_cereal_tig,o12,s_cereals,s_trust_in_govt
-output,o_veg_tig,o13,s_veg,s_trust_in_govt
-output,o_dairy_tig,o14,s_dairy,s_trust_in_govt
-output,o_rg_tig,o15,s_rg,s_trust_in_govt
-output,o_lfa_cereal_tig,o16,s_lfa_cereals,s_trust_in_govt
-output,o_lfa_dairy_tig,o17,s_lfa_dairy,s_trust_in_govt
-output,o_lfa_rg_tig,o18,s_lfa_rg,s_trust_in_govt
-output,o_cereals_area,o19,"s_cereals, s_lfa_cereals",s_area
-output,o_veg_area,o20,"s_veg, s_lfa_veg",s_area
-output,o_dairy_area,o21,"s_dairy, s_lfa_dairy",s_area
-output,o_rg_area,o22,"s_rg, s_lfa_rg",s_area
-output,o_forest_area,o23,"s_forest, s_lfa_forest",s_area
-output,o_softwood_area,o24,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",s_area
-output,o_biomass_area,o25,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",s_area
-output,o_cereals_price,o26,s_cereals,s_price
-output,o_veg_price,o27,s_veg,s_price
-output,o_dairy_price,o28,s_dairy,s_price
-output,o_rg_price,o29,s_rg,s_price
-output,o_forest_price,o30,s_forest,s_price
-output,o_softwood_price,o31,s_farm_woodland_cropland,s_price
-output,o_biomass_price,o32,s_biomass_cropland,s_price
-output,o_biomass_carbon,o33,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",s_biomass_carbon
+output,o_b_c_will,o12,s_biomass_cropland,s_CDR_will
+output,o_b_g_will,o13,s_biomass_grassland,s_CDR_will
+output,o_lfa_b_c_will,o14,s_lfa_biomass_cropland,s_CDR_will
+output,o_lfa_b_g_will,o15,s_lfa_biomass_grassland,s_CDR_will
+output,o_p_c_will,o16,s_peat_cropland,s_CDR_will
+output,o_p_g_will,o17,s_peat_grassland,s_CDR_will
+output,o_lfa_p_c_will,o18,s_lfa_peat_cropland,s_CDR_will
+output,o_lfa_p_g_will,o19,s_lfa_peat_grassland,s_CDR_will
+output,o_cereal_tig,o20,s_cereals,s_trust_in_govt
+output,o_veg_tig,o21,s_veg,s_trust_in_govt
+output,o_dairy_tig,o22,s_dairy,s_trust_in_govt
+output,o_rg_tig,o23,s_rg,s_trust_in_govt
+output,o_lfa_cereal_tig,o24,s_lfa_cereals,s_trust_in_govt
+output,o_lfa_dairy_tig,o25,s_lfa_dairy,s_trust_in_govt
+output,o_lfa_rg_tig,o26,s_lfa_rg,s_trust_in_govt
+output,o_cereals_area,o27,"s_cereals, s_lfa_cereals",s_area
+output,o_veg_area,o28,"s_veg, s_lfa_veg",s_area
+output,o_dairy_area,o29,"s_dairy, s_lfa_dairy",s_area
+output,o_rg_area,o30,"s_rg, s_lfa_rg",s_area
+output,o_forest_area,o31,"s_forest, s_lfa_forest",s_area
+output,o_softwood_area,o32,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",s_area
+output,o_biomass_area,o33,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",s_area
+output,o_peat_area,o34,"s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",s_area
+output,o_cereals_price,o35,s_cereals,s_price
+output,o_veg_price,o36,s_veg,s_price
+output,o_dairy_price,o37,s_dairy,s_price
+output,o_rg_price,o38,s_rg,s_price
+output,o_forest_price,o39,s_forest,s_price
+output,o_softwood_price,o40,s_farm_woodland_cropland,s_price
+output,o_biomass_price,o41,s_biomass_cropland,s_price
+output,o_woodland_carbon,o42,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",s_farm_woodland_carbon
+output,o_biomass_carbon,o43,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",s_biomass_carbon
+output,o_woodland_carbon,o42,"s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",s_peat_carbon

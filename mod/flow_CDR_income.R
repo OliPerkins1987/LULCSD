@@ -22,8 +22,9 @@ CDR_income <- function(ff_, i_demand_carbon) {
         s <- y@s_parameters
         
         s_carbon_yield <- ifelse(is.null(s$s_carbon_yield), 0, s$s_carbon_yield)
+        s_carbon_cost  <- ifelse(is.null(s$s_carbon_cost), 0, s$s_carbon_cost)
         
-        y@s_parameters$s_carbon_income <- s$s_CDR * idc * s_carbon_yield
+        y@s_parameters$s_carbon_income <- s$s_CDR * (idc-s_carbon_cost) * s_carbon_yield
         
         y
         
