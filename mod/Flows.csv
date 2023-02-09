@@ -22,4 +22,4 @@ flow,f_biomass_logistics,f20,"s_biomass_cropland, s_biomass_grassland, s_lfa_bio
 family_flow,ff_peat_logistics,ff21,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",peat_logistics
 flow,f_farm_woodland_carbon,f22,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland","s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",farm_woodland_carbon
 family_flow,ff_biomass_carbon,ff23,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",biomass_carbon
-flow,f_peat_carbon,f22,"s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland","s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",peat_carbon
+flow,f_peat_carbon,f24,"s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland","s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",peat_carbon
