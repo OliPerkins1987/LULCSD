@@ -9,3 +9,5 @@ input,i_demand_carbon,i7,"s_farm_woodland_cropland, s_farm_woodland_grassland, s
 input,i_demand_biomass,i8,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",non_spat
 input,i_demand_peat,i9,"s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",non_spat
 input,i_farmer_age,i9,"s_cereals, s_lfa_cereals, s_veg, s_dairy, s_lfa_dairy, s_rg, s_lfa_rg, s_forest, s_lfa_forest, s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland, s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",non_spat
+input,i_population,i_10,s_urban,non_spat
+input,i_setaside,i_11,s_setaside,non_spat

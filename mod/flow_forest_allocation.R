@@ -2,7 +2,7 @@
 
 ###################################################################################
 
-### Calculates flows between dairy and cropland
+### Calculates allocation of nursery stocks to forest planting
 
 ###################################################################################
 

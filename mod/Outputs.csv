@@ -42,4 +42,14 @@ output,o_softwood_price,o40,s_farm_woodland_cropland,s_price
 output,o_biomass_price,o41,s_biomass_cropland,s_price
 output,o_woodland_carbon,o42,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",s_farm_woodland_carbon
 output,o_biomass_carbon,o43,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",s_biomass_carbon
-output,o_woodland_carbon,o42,"s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",s_peat_carbon
+output,o_woodland_carbon,o44,"s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",s_peat_carbon
+output,o_biodiversity,o45,"s_cereals, s_lfa_cereals, s_veg, s_lfa_veg, s_dairy, s_lfa_dairy, s_rg, s_lfa_rg, s_forest, s_lfa_forest, s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland, s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland, s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",s_biodiversity
+output,o_imports_cereal,o46,s_cereals,s_surplus
+output,o_imports_veg,o47,s_veg,s_surplus
+output,o_imports_dairy,o48,s_dairy,s_surplus
+output,o_imports_meat,o49,s_rg,s_surplus
+output,o_carbon_offshore,o50,s_cereals,s_ILUC_carbon
+output,o_carbon_offshore,o51,s_veg,s_ILUC_carbon
+output,o_carbon_offshore,o52,s_dairy,s_ILUC_carbon
+output,o_carbon_offshore,o53,s_rg,s_ILUC_carbon
+output,o_carbon_offshore,o54,s_biomass_cropland,s_ILUC_carbon
