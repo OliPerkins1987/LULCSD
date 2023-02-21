@@ -40,13 +40,13 @@ demand_dairy <- function(s_dairy, s_lfa_dairy, i_demand_dairy) {
   
 }
 
-demand_rg <- function(s_rg, s_lfa_rg, i_demand_rg) {
+demand_rg <- function(s_rg, s_lfa_rg, i_demand_beef, i_demand_lamb) {
   
   
   ### pass
   
-  return(list(s_rg = list(s_demand = i_demand_rg@i_current_val), 
-              s_lfa_rg = list(s_demand = i_demand_rg@i_current_val)))
+  return(list(s_rg = list(s_demand = i_demand_beef@i_current_val), 
+              s_lfa_rg = list(s_demand = i_demand_lamb@i_current_val)))
   
 }
 

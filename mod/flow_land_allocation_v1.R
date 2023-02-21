@@ -230,6 +230,45 @@ calc_econ_flows <- function(sf) {
 }
 
 
+############################################################
+
+### Container for scenario specific political decisions
+
+############################################################
+
+mk_political_constraints <- function(sf) {
+  
+  pol.con <- lapply(sf, function(x) {
+    
+    df <- mk_trans_matrix(x, nr = length(x))
+    
+    #################################
+    ### populate matrix
+    #################################
+    
+    for(i in 1:length(x)) {
+      
+      ### infinite unless specified
+      df[, i]  <- Inf
+      
+      ### no trees or biomass on peat
+      if(x[[i]]@s_parameters$s_CDR == 1) {
+        
+        df[, i] <- ifelse(grepl('peat', row.names(df)), 0, df[, i])
+        
+      }
+      
+    }
+    
+    df <- data.frame(df)
+    
+    df
+    
+  })
+  
+  return(pol.con)
+  
+}
 
 
 ###############################################################
@@ -238,7 +277,8 @@ calc_econ_flows <- function(sf) {
 
 ###############################################################
 
-combine_mods <- function(sf, behaviour, econ, logistics, enviro, peat) {
+combine_mods <- function(sf, behaviour, econ, logistics, enviro, peat, pol) {
+  
   
   for(i in 1:length(sf)) {
     
@@ -337,6 +377,23 @@ combine_mods <- function(sf, behaviour, econ, logistics, enviro, peat) {
         }
       
     
+    
+    ##################################################
+    
+    ## Apply political constraints
+    
+    ##################################################
+    
+    for(j in 1:length(sf[[i]])) {
+      
+      LULC[, j] <- ifelse(LULC[, j] > pol[[i]][, j], 
+                          pol[[i]][, j], 
+                          LULC[, j])
+      
+      LULC[j, ] <- (0 - LULC[, j])
+      
+    }
+    
     ##################################################
     
     ### update LULC
@@ -418,8 +475,9 @@ land_allocation <- function(ff_, p_behaviour_intercept, p_tig_beta, p_max_CDR_de
   l.df    <- get_logistics_pars(ff_)
   env.df  <- get_envrionmental_constraint(ff_)
   p.df    <- get_peat_limits(ff_)
+  politics<- mk_political_constraints(ff_)
   econ.df <- calc_econ_flows(ff_)
-  s.fam   <- combine_mods(ff_, b.df, econ.df, l.df, env.df, p.df)
+  s.fam   <- combine_mods(ff_, b.df, econ.df, l.df, env.df, p.df, politics)
   
   } else {
     

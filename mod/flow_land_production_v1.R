@@ -6,7 +6,7 @@
 
 ###################################################################################
 
-production <- function(ff_, p_price_weight) {
+production <- function(ff_, p_price_weight, p_price_weight_forestry) {
 
   ### calculates production by land system
   
@@ -67,11 +67,13 @@ production <- function(ff_, p_price_weight) {
   
   
   ### update price
-  calc_price <- function(sf, p_pw = p_price_weight) {
+  calc_price <- function(sf, p_pw = p_price_weight, p_pw_f = p_price_weight_forestry) {
     
     sf <- lapply(sf, function(x) {
       
-      x@s_parameters$s_price <- x@s_parameters$s_price + (x@s_parameters$s_price  * (0-x@s_parameters$s_surplus) * p_pw)
+      p_update <- ifelse(x@s_parameters$s_commodity %in% c('Softwood', 'Hardwood'), p_pw_f, p_pw)
+      
+      x@s_parameters$s_price <- x@s_parameters$s_price + (x@s_parameters$s_price  * (0-x@s_parameters$s_surplus) * p_update)
       
       x@s_parameters$s_price <- ifelse(x@s_parameters$s_price < 0, 0, x@s_parameters$s_price)
       

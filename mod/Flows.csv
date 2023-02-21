@@ -2,7 +2,7 @@
 flow,f_demand_cereals,f1,i_demand_cereals,"s_cereals, s_lfa_cereals",demand_cereals
 flow,f_demand_veg,f2,i_demand_veg,s_veg,demand_veg
 flow,f_demand_dairy,f3,i_demand_dairy,"s_dairy, s_lfa_dairy",demand_dairy
-flow,f_demand_rg,f4,i_demand_rg,"s_rg, s_lfa_rg",demand_rg
+flow,f_demand_rg,f4,"i_demand_beef, i_demand_lamb","s_rg, s_lfa_rg",demand_rg
 flow,f_demand_hardwood,f5,i_demand_hardwood,"s_forest, s_lfa_forest",demand_hardwood
 flow,f_demand_softwood,f6,i_demand_softwood,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",demand_softwood
 flow,f_demand_biomass,f7,i_demand_biomass,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",demand_biomass
@@ -28,4 +28,4 @@ flow,f_farm_woodland_carbon,f26,"s_farm_woodland_cropland, s_farm_woodland_grass
 family_flow,ff_biomass_carbon,ff27,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",biomass_carbon
 flow,f_peat_carbon,f28,"s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland","s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",peat_carbon
 family_flow,ff_biodiversity,ff29,"cropland, grassland, lfa_cropland, lfa_grassland, forest, lfa_forest, urban, setaside","cropland, grassland, lfa_cropland, lfa_grassland, forest, lfa_forest, urban, setaside",biodiversity
-family_flow,ff_ILUC_carbon,ff30,"cropland, grassland","cropland, grassland",ILUC_carbon
+family_flow,ff_ILUC_carbon,ff30,"cropland, grassland, lfa_grassland","cropland, grassland, lfa_grassland",ILUC_carbon

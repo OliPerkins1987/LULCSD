@@ -8,6 +8,7 @@
 ###################################################################################
 
 ### ff_ should be a list of stocks by family
+### !!! ugly code here
 
 inter_la <- function(sf, plt, cdp) {
   
