@@ -16,6 +16,8 @@ peat_logistics <- function(ff_) {
     
     s.names <- sapply(z, function(s) {s@s_parameters$s_commodity})
     
+    ### update peat available for restoring
+    
     if('Peat' %in% s.names) {
       
       Peat.key <- which(s.names == 'Peat')
@@ -40,13 +42,14 @@ peat_logistics <- function(ff_) {
       
       })
       
-      Peat.flow <- unlist(sapply(z, function(s) {s@s_parameters$s_peat_max - s@s_parameters$s_available_peat_area}))
+      ### constraint peat flows
+      Peat.available <- unlist(sapply(z, function(s) {s@s_parameters$s_available_peat_area}))
       
       z <- lapply(z, function(s) {
         
         if(s@s_parameters$s_commodity == 'Peat') {
           
-          s@s_parameters$s_logistics_constraint <- ifelse(Peat.flow < 0, 0, Peat.flow)
+          s@s_parameters$s_logistics_constraint <- Peat.available
           
         }
         

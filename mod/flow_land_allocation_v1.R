@@ -178,17 +178,18 @@ get_peat_limits <- function(sf) {
     df       <- mk_trans_matrix(x, nr = 1)
     Peat.key <- which(sapply(x, function(s) {s@s_parameters$s_commodity}) == 'Peat')
     
-    
     #########################################
     ### populate logstics_contraint matrix
     #########################################
     
-    if(length(x[[Peat.key]]@s_parameters$s_logistics_constraint) == ncol(df)) {
-    df[, -Peat.key] <- x[[Peat.key]]@s_parameters$s_logistics_constraint
+    if(length(x[[Peat.key]]@s_parameters$s_logistics_constraint) == ncol(df)-1) {
+    
+      df[, -Peat.key] <- x[[Peat.key]]@s_parameters$s_logistics_constraint
+    
     }
     
-    df <- data.frame(t(apply(df, 2, function(z) {ifelse(is.na(z), Inf, 
-                                                        ifelse(z < 0, 0, z))})))
+    df[1, ] <- ifelse(is.na(df[1, ]), Inf,
+                 ifelse(df[1, ] < 0, 0, df[1, ]))
     df
     
   })
@@ -350,11 +351,11 @@ combine_mods <- function(sf, behaviour, econ, logistics, enviro, peat, pol) {
     
     for(j in 1:length(sf[[i]])) {
       
-      if(abs(LULC[Peat.key, j]) > peat[[i]][, Peat.key]) {
+      if((0- LULC[Peat.key, j]) > peat[[i]][, j]) {
         
-        LULC[Peat.key, j] <- peat[[i]][, Peat.key]
+        LULC[Peat.key, j] <- (0 - peat[[i]][, j])
         
-        LULC[j, Peat.key] <- (0 - LULC[Peat.key, j])
+        LULC[j, Peat.key] <- peat[[i]][, j]
         
       }
       

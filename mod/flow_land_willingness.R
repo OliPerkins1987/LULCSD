@@ -165,7 +165,7 @@ calc_CDR_rate <- function(sf, ifa) {
       n1 <- length(which(ha.dat$size < 25))/nrow(ha.dat)
       n2 <- length(which(ha.dat$age  < 75))/nrow(ha.dat)
       
-      n3 <- ha.dat$tenure
+      n3 <- mean(ha.dat$tenure)
       n4 <- length(which(ha.dat$income < 80000)) / nrow(ha.dat)
       n5 <- length(which(ha.dat$age  < 65)) / nrow(ha.dat)
       n6 <- length(which(ha.dat$income  < 22500)) / nrow(ha.dat)
@@ -177,8 +177,8 @@ calc_CDR_rate <- function(sf, ifa) {
       probs[[3]] <- (1-n1) * n3
       probs[[4]] <- (1-n1) * (1-n3) * (1-n4)
       probs[[5]] <- (1-n1) * (1-n3) * (n4) * (1-n5)
-      probs[[6]] <- (1-n1) * (1-n3) * (n4) * (n5) * (1-n6)
-      probs[[7]] <- (1-n1) * (1-n3) * (n4) * (n5) * (n6)
+      probs[[6]] <- (1-n1) * (1-n3) * (n4) * (n5) * (n6)
+      probs[[7]] <- (1-n1) * (1-n3) * (n4) * (n5) * (1-n6)
       
       probs      <- unlist(probs) * c(0.2363, 0.1268, 0.0864, 0.1029, 
                                       0.0973, 0.1281, 0.2422)
@@ -231,7 +231,7 @@ calc_CDR_hectares <- function(sf, ifa) {
       ha[[1]] <- sum(mean(ha.dat$size[ha.dat$size < 25]) * s$CDR_rate[1:2]) * sum(s$CDR_bool[1:4]) 
       ha[[2]] <- sum(mean(ha.dat$size[ha.dat$size >= 25]) * s$CDR_rate[3:6])  * sum(s$CDR_bool[5:11]) 
       
-      y@s_parameters$s_CDR_hectares <- sum(unlist(ha)) 
+      y@s_parameters$s_CDR_hectares <- sum(unlist(ha), na.rm = T) 
 
       }  else if(y@s_parameters$s_CDR == 1) {
         

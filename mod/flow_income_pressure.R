@@ -14,7 +14,7 @@
 #calculates income pressure on land use allocation
 #calculates ratio of income per farm to mean income per farm for the land system
 
-calc_income <- function(sf) {
+calc_income <- function(sf, p_CDR_s) {
   
   sf <- lapply(sf, function(x) {
     
@@ -27,12 +27,15 @@ calc_income <- function(sf) {
               xs <- unlist(lapply(x, function(z) {z@s_parameters$s_size}))
               xs <- mean(xs[!is.null(xs)], na.rm = T)
               
+              xs <- ifelse(s$s_CDR == 1, xs * p_CDR_s, xs)
+              
               s$s_size              <- xs
               y@s_parameters$s_size <- xs
               
             }
             
-            .inc                    <- ((s$s_yield * s$s_price * s$s_margin) + s$s_subsidy + s$s_carbon_income) * s$s_size 
+            .inc                    <- ((s$s_yield * s$s_price * s$s_margin) + s$s_subsidy + s$s_carbon_income + 
+                                          s$s_biodiversity_income) * s$s_size 
             y@s_parameters$s_income <- ifelse(.inc < 0, 0, .inc)
             
             y
@@ -114,9 +117,9 @@ lc_flow <- function(sf, plt) {
 ### converts income pressure to a hectares change
 ### ff_ should be a list of stocks by family
 
-income_pressure <- function(ff_, p_land_trans) {
+income_pressure <- function(ff_, p_land_trans, p_CDR_size) {
 
-  s.fam   <- calc_income(ff_)
+  s.fam   <- calc_income(ff_, p_CDR_size)
   s.fam   <- calc_ip(s.fam)
   s.fam   <- lc_flow(s.fam, p_land_trans) 
   

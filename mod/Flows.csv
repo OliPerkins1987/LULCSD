@@ -15,17 +15,19 @@ flow,f_inter_system_allocation,f13,"s_cereals, s_dairy, s_lfa_cereals, s_lfa_dai
 flow,f_urbanisation,f14,"s_cereals, s_urban","s_cereals, s_urban",urban_growth
 flow,f_set_aside,f15,"i_set_aside, s_cereals, s_lfa_cereals","s_cereals, s_lfa_cereals",set_aside
 family_flow,ff_CDR_income,ff16,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",CDR_income
-family_flow,ff_income_pressure,ff17,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",income_pressure
-family_flow,ff_production,ff18,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",production
-flow,f_forest_production,f19,"s_forest, s_lfa_forest","s_forest, s_lfa_forest",forest_production
-family_flow,ff_land_willingness,ff20,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",land_willingness
-family_flow,ff_CDR_willingness,ff21,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",CDR_willingness
-family_flow,ff_trust_in_govt,ff22,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",trust_in_govt
-flow,f_farm_woodland_logistics,f23,"s_forest, s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland","s_forest, s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",farm_woodland_logistics
-flow,f_biomass_logistics,f24,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland","s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",biomass_logistics
-family_flow,ff_peat_logistics,ff25,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",peat_logistics
-flow,f_farm_woodland_carbon,f26,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland","s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",farm_woodland_carbon
-family_flow,ff_biomass_carbon,ff27,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",biomass_carbon
-flow,f_peat_carbon,f28,"s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland","s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",peat_carbon
-family_flow,ff_biodiversity,ff29,"cropland, grassland, lfa_cropland, lfa_grassland, forest, lfa_forest, urban, setaside","cropland, grassland, lfa_cropland, lfa_grassland, forest, lfa_forest, urban, setaside",biodiversity
-family_flow,ff_ILUC_carbon,ff30,"cropland, grassland, lfa_grassland","cropland, grassland, lfa_grassland",ILUC_carbon
+family_flow,ff_Biodiversity_income,ff17,"cropland, grassland, lfa_cropland, lfa_grassland, urban","cropland, grassland, lfa_cropland, lfa_grassland, urban",biodiversity_income
+family_flow,ff_income_pressure,ff18,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",income_pressure
+family_flow,ff_production,ff19,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",production
+flow,f_forest_production,f20,"s_forest, s_lfa_forest","s_forest, s_lfa_forest",forest_production
+family_flow,ff_land_willingness,ff21,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",land_willingness
+family_flow,ff_CDR_willingness,ff22,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",CDR_willingness
+family_flow,ff_trust_in_govt,ff23,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",trust_in_govt
+flow,f_farm_woodland_logistics,f24,"s_forest, s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland","s_forest, s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",farm_woodland_logistics
+flow,f_biomass_logistics,f25,"s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland","s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland",biomass_logistics
+family_flow,ff_peat_logistics,ff26,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",peat_logistics
+flow,f_farm_woodland_carbon,f27,"s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland","s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland",farm_woodland_carbon
+family_flow,ff_biomass_carbon,ff28,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",biomass_carbon
+flow,f_peat_carbon,f29,"s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland","s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",peat_carbon
+family_flow,ff_biodiversity,ff30,"cropland, grassland, lfa_cropland, lfa_grassland, forest, lfa_forest, urban, setaside","cropland, grassland, lfa_cropland, lfa_grassland, forest, lfa_forest, urban, setaside",biodiversity
+family_flow,ff_ILUC_carbon,ff31,"cropland, grassland, lfa_grassland","cropland, grassland, lfa_grassland",ILUC_carbon
+family_flow,ff_subsidy_cost,ff32,"cropland, grassland, lfa_cropland, lfa_grassland","cropland, grassland, lfa_cropland, lfa_grassland",subsidy_cost

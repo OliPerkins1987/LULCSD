@@ -56,3 +56,5 @@ output,o_carbon_offshore,o54,s_dairy,s_ILUC_carbon
 output,o_carbon_offshore,o55,s_rg,s_ILUC_carbon
 output,o_carbon_offshore,o56,s_biomass_cropland,s_ILUC_carbon
 output,o_carbon_offshore,o57,s_lfa_rg,s_ILUC_carbon
+output,o_imports_biomass,o58,s_biomass_cropland,s_surplus
+output,o_subsidy_cost,o59,"s_cereals, s_lfa_cereals, s_veg, s_lfa_veg, s_dairy, s_lfa_dairy, s_rg, s_lfa_rg, s_farm_woodland_cropland, s_farm_woodland_grassland, s_lfa_farm_woodland_cropland, s_lfa_farm_woodland_grassland, s_biomass_cropland, s_biomass_grassland, s_lfa_biomass_cropland, s_lfa_biomass_grassland, s_peat_cropland, s_peat_grassland, s_lfa_peat_cropland, s_lfa_peat_grassland",s_subsidy_cost

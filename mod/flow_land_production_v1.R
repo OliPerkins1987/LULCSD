@@ -6,7 +6,7 @@
 
 ###################################################################################
 
-production <- function(ff_, p_price_weight, p_price_weight_forestry) {
+production <- function(ff_, p_price_weight, p_price_weight_forestry, p_trade_policy) {
 
   ### calculates production by land system
   
@@ -67,11 +67,14 @@ production <- function(ff_, p_price_weight, p_price_weight_forestry) {
   
   
   ### update price
-  calc_price <- function(sf, p_pw = p_price_weight, p_pw_f = p_price_weight_forestry) {
+  calc_price <- function(sf, p_pw = p_price_weight, p_pw_f = p_price_weight_forestry, p_tl = p_trade_policy) {
     
     sf <- lapply(sf, function(x) {
       
       p_update <- ifelse(x@s_parameters$s_commodity %in% c('Softwood', 'Hardwood'), p_pw_f, p_pw)
+      
+      ### allow for future changes to trade friction
+      p_update <- ifelse(x@s_parameters$s_surplus < 0, p_update * p_tl, p_update)
       
       x@s_parameters$s_price <- x@s_parameters$s_price + (x@s_parameters$s_price  * (0-x@s_parameters$s_surplus) * p_update)
       
