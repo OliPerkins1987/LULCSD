@@ -250,7 +250,7 @@ make_system <- function(stocks_list, flows_list, tidy = F) {
     
   }
   
-  ##"g <- graph(g)"
+  g <- igraph::graph(g)
    
   g
 
