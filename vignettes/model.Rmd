@@ -1,0 +1,57 @@
+---
+title: "model"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{model}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This vignette gives a very simple example of a rhapsody model. It represents expansion of a commodity crop (soybeans) into a forested area. 
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rhapsody)
+```
+
+First build model stock & flow, input & output keys
+
+```
+
+s_key <- data.frame(s_type = c('stock', 'stock'), s_name = c('s_soybean', 's_forest'), s_family = c('cropland', 'forest'), s_id = c('s1','s2'), s_flow_out = c('s_soybean', 's_soybean, s_forest'), s_flow_in = c('i_soybean_demand', ''), s_parameters = c('area, yield, price', 'area'), s_internal_pars = c('', ''))
+
+f_key <- data.frame(f_type = c('flow', 'flow'), f_name = c('f_deforest', 'f_produce_soy'), f_id = c('f1', 'f2'), f_from_stocks = c('s_soybean, s_forest', 's_soybean, i_soybean_demand'), f_to_stocks = c('s_soybean, s_forest', 's_soybean'), f_function = c('deforest', 'produce_soy'))
+
+i_key <- data.frame(i_type = c('input'), i_name = c('i_soybean_demand'), i_id = c('i1'), i_to = c('s_soybean'), i_dat_type = c('non_spat'))
+
+o_key <- data.frame(o_type = c('output', 'output', 'output'), o_name = c('soybean_area', 'forest_area', 'soybean_price'), o_id = c('o1', 'o2', 'o3'), o_from_stocks = c('s_soybean', 's_forest', 's_soybean'), o_from_var = c('area', 'area', 'price'))
+
+start_vals <- data.frame(Object = c('s_soybean', 's_forest', 's_soybean', 's_soybean'), Parameter = c('area', 'area', 'yield', 'price'), Value = c(1000, 1000000, 2, 450))
+
+
+```
+
+Now initialise the model and read flows
+
+```
+sd.mod <- init_model(stocks_from_key(s_key), flows_from_key(f_key), inputs_from_key(i_key, path = paste0(getwd(), '/data')), outputs_from_key(o_key), parameter_list = list(p_land_trans = 0.0005, p_price_update= 0.05), initial_stock_vals = start_vals, run = list(nsteps = 31, step = 1990), load_stock_dat = F)
+
+
+source(paste0(getwd(), '/data/example_flows.R'))
+
+```
+
+Now run the model and explore outputs
+
+```
+sd.mod <- run_mod(sd.mod)
+
+plot(unlist(sd.mod@outputs[[1]]@o_outputs))
+
+```

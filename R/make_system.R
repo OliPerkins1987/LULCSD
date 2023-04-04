@@ -5,76 +5,82 @@
 
 ###############################################################################
 
+#'Create a list of stocks from a stock key
+#'@param key A dataframe generated either in the global environment or through the template csv file
+#'@param parse_flows A logical: should the flows to and flows from columns be parsed into a character vector
+#'@returns A list of stock objects
+#'@examples
+#'stocks_from_key(stock_key, parse_flows = T)
 #' @export
 stocks_from_key <- function(key, parse_flows = T) {
-  
+
   s_stocks<- list()
-  
+
   for(r in 1:nrow(key)) {
-    
+
     if(key$s_type[r] == 'stock') {
-            
-          s <- init_stock(name = character(), id = character(), family = character(), 
-                      flows_out = character(), flows_in = character(), 
+
+          s <- init_stock(name = character(), id = character(), family = character(),
+                      flows_out = character(), flows_in = character(),
                       internal_pars = character(), parameters = list())
-          
+
     } else if(key$s_type[r] == 'family_stock') {
-      
+
           s <- new('family_stock')
-          
+
           s@s_family_members <- key$s_name[key$s_family_id == key$s_family_id[r]]
- 
+
     }
-    
+
     for(col in colnames(key)) {
-      
+
       if(!grepl('parameters', col) & !grepl('internal_pars', col)) {
-      
+
       attr(s, col) <- key[[col]][r]
-      
+
       } else if(grepl('parameters', col) | grepl('internal_pars', col)) {
-        
+
         par          <- gsub(' ', '', unlist(strsplit(key[[col]][r], ',')))
-        
+
         if(grepl('internal_pars', col) & length(par) > 0) {
         attr(s, col) <- par
-        
+
         } else if(grepl('parameters', col)) {
-        
+
         for(p in par) {
-        
+
       attr(s, col)[p] <- 0
-        
+
         }
-      
+
        }
-      
+
      }
-        
+
     }
-    
-    
+
+
     if(parse_flows == T) {
-      
+
       cols <- colnames(key)[grepl('flows', colnames(key))]
-      
+
       for(col in cols) {
-      
+
         attr(s, col) <- strsplit(attr(s, col), ',')[[1]]
         attr(s, col) <- gsub(' ', '', attr(s, col))
 
           }
-        
+
     }
 
     s_stocks[[r]] <- s
-    
+
   }
-    
+
 
   s_stocks
-  
-  
+
+
 }
 
 
@@ -84,51 +90,58 @@ stocks_from_key <- function(key, parse_flows = T) {
 
 ##############################################################################
 
+#'Create a list of flows from a flow key
+#'@param key A dataframe generated either in the global environment or through the template csv file
+#'@param parse_stocks A logical: should the stocks to and stocks from columns be parsed into a character vector
+#'@returns A list of flow objects
+#'@examples
+#'flows_from_key(flow_key, parse_stocks = T)
+
 #' @export
 flows_from_key <- function(key, parse_stocks = T) {
-  
+
   f_flows <- list()
-  
+
   for(r in 1:nrow(key)) {
-    
+
     if(key$f_type[r] == 'flow') {
-      
+
       f <- new('flow')
-      
+
     } else if(key$f_type[r] == 'family_flow') {
-      
+
       f <- new('family_flow')
-      
+
     }
-    
+
     for(col in colnames(key)) {
-      
+
       attr(f, col) <- key[[col]][r]
-      
+
     }
-    
-    
+
+
     if(parse_stocks == T) {
-      
+
       cols <- colnames(key)[grepl('stocks', colnames(key))]
-      
+
       for(col in cols) {
-        
+
         attr(f, col) <- strsplit(attr(f, col), ',')[[1]]
         attr(f, col) <- gsub(' ', '', attr(f, col))
-        
+
       }
-      
+
     }
-    
+
     f_flows[[r]] <- f
-    
+
   }
 
-  
+
   f_flows
-  
-  
+
+
 }
 
 
@@ -139,36 +152,45 @@ flows_from_key <- function(key, parse_stocks = T) {
 
 ##############################################################################
 
+#'Create a list of inputs from an input key
+#'@param key A dataframe generated either in the global environment or through the template csv file
+#'@param path A character string giving the location of input data files for the model, or NA for the current working directory
+#'@param data_type A character string naming the data format of the input file; currently on generic supported
+#'@returns A list of input objects
+#'@examples
+#'inputs_from_key(input_key, path = 'my/file/path')
+
+
 #' @export
 inputs_from_key <- function(key, path = NA, data_type = 'generic') {
-  
+
   i_inputs <- list()
-  
+
   for(r in 1:nrow(key)) {
-    
+
     if(key$i_type[r] == 'input') {
-      
-      i <- init_input(name = character(), id = character(), 
+
+      i <- init_input(name = character(), id = character(),
                       to = character(), dat_type = data_type)
-      
-    } 
-    
-    for(col in colnames(key)) {
-      
-      attr(i, col) <- key[[col]][r]
-      
+
     }
 
-    
-    i             <- load_input(i, path = NA)
+    for(col in colnames(key)) {
+
+      attr(i, col) <- key[[col]][r]
+
+    }
+
+
+    i             <- load_input(i, path = path)
     i_inputs[[r]] <- i
-    
+
   }
-  
-  
+
+
   i_inputs
-  
-  
+
+
 }
 
 
@@ -178,41 +200,47 @@ inputs_from_key <- function(key, path = NA, data_type = 'generic') {
 
 ##############################################################################
 
+
+#'Create a list of outputs from an output key
+#'@param key A dataframe generated either in the global environment or through the template csv file
+#'@returns A list of output objects
+#'@examples
+#'outputs_from_key(output_key)
 #' @export
 outputs_from_key <- function(key) {
-  
+
   o_outputs<- list()
-  
+
   for(r in 1:nrow(key)) {
-    
+
     if(key$o_type[r] == 'output') {
-      
+
       i <- new('output')
-      
-    } 
-    
-    for(col in colnames(key)) {
-      
-      if(grepl('from_stocks', col)) {
-        
-        attr(i, col) <- gsub(' ', '', unlist(strsplit(key[[col]][r], ',')))
-        
-      } else {
-      
-      attr(i, col) <- key[[col]][r]
-      
-      }
-      
+
     }
-    
+
+    for(col in colnames(key)) {
+
+      if(grepl('from_stocks', col)) {
+
+        attr(i, col) <- gsub(' ', '', unlist(strsplit(key[[col]][r], ',')))
+
+      } else {
+
+      attr(i, col) <- key[[col]][r]
+
+      }
+
+    }
+
     o_outputs[[r]] <- i
-    
+
   }
-  
-  
+
+
   o_outputs
-  
-  
+
+
 }
 
 
@@ -222,41 +250,48 @@ outputs_from_key <- function(key) {
 
 ##############################################################################
 
+#'A utility function for checking the system as specified. Not used in simulation modelling.
+#'@param stocks_list A list of stocks; typically the output of stocks_from_key
+#'@param flows_list A list of flows; typically the output of flows_from_key
+#'@param tidy A logical; passed to igraph for presentation. Shortens stock names.
+#'@returns An igraph::graph object
+#'@examples
+#'plot(make_system(s_list, f_list, tidy = T))
 #' @export
 make_system <- function(stocks_list, flows_list, tidy = F) {
-  
+
   g  <- character()
- 
+
   for(f in 1:length(flows_list)) {
-    
+
     tmp_edges <- sapply(flows_list[[f]]@f_from_stocks, function(x) {
-      
+
       sapply(flows_list[[f]]@f_to_stocks, function(y){
-        
+
         c(x, y)})
-      
+
             })
-    
-    
+
+
     g <- c(g, tmp_edges)
-    
-    
-    
+
+
+
   }
-  
+
   if(tidy == T) {
-    
+
     g <- substr(g, 3, nchar(g))
-    
+
   }
-  
+
   g <- igraph::graph(g)
-   
+
   g
 
-  
+
 }
-  
+
 
 
 
