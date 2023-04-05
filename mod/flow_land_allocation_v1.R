@@ -237,7 +237,8 @@ calc_econ_flows <- function(sf) {
 
 ############################################################
 
-mk_political_constraints <- function(sf) {
+
+mk_political_constraints <- function(sf, pp) {
   
   pol.con <- lapply(sf, function(x) {
     
@@ -247,21 +248,39 @@ mk_political_constraints <- function(sf) {
     ### populate matrix
     #################################
     
-    for(i in 1:length(x)) {
+    for(i in 1:length(pp)) {
+      
+      .key  <- which(grepl(names(pp)[i], colnames(df)))
+      .peat <- which(grepl('peat', row.names(df)))
+      .crop <- which(grepl('cereal', row.names(df)))
+      .veg  <- which(grepl('veg', row.names(df)))
       
       ### infinite unless specified
-      df[, i]  <- Inf
+      df[, .key]  <- Inf
       
       ### no trees or biomass on peat
-      if(x[[i]]@s_parameters$s_CDR == 1) {
+      if(pp[[i]]$peat == FALSE) {
         
-        df[, i] <- ifelse(grepl('peat', row.names(df)), 0, df[, i])
+        df[.peat, .key] <- 0
+        
+      }
+      
+      if(pp[[i]]$prime == FALSE) {
+        
+        
+        df[.crop, .key] <- ifelse(x[[.key]]@s_parameters$s_income_pressure[.crop] > 0, 
+                                  x[[.key]]@s_parameters$s_income_pressure[.crop] * 0.25, 
+                                  x[[.key]]@s_parameters$s_income_pressure[.crop])
+        
+        
+        df[.veg, .key] <- ifelse(x[[.key]]@s_parameters$s_income_pressure[.veg] > 0, 
+                                 0, x[[.key]]@s_parameters$s_income_pressure[.veg])
         
       }
       
     }
     
-    df <- data.frame(df)
+    df <- data.frame(apply(df, 2, function(z) {ifelse(is.na(z), Inf, z)}))
     
     df
     
@@ -270,6 +289,7 @@ mk_political_constraints <- function(sf) {
   return(pol.con)
   
 }
+
 
 
 ###############################################################
@@ -467,19 +487,23 @@ calc_la <- function(sf) {
 
 ###############################################################
 
-land_allocation <- function(ff_, p_behaviour_intercept, p_tig_beta, p_max_CDR_delta) {
+land_allocation <- function(ff_, p_behaviour_intercept, p_tig_beta, p_max_CDR_delta, 
+                            p_politics_woodland_peat, p_politics_woodland_prime,
+                            p_politics_biomass_peat, p_politics_biomass_prime) {
   
   ### catches case where model is run from 1st step without initial values
   if(any(sapply(unlist(ff_), function(z) {!is.null(z@s_parameters$s_CDR_will)}))) {
-  
-  b.df    <- get_behaviour_pars(ff_, p_behaviour_intercept,p_tig_beta, p_max_CDR_delta)
-  l.df    <- get_logistics_pars(ff_)
-  env.df  <- get_envrionmental_constraint(ff_)
-  p.df    <- get_peat_limits(ff_)
-  politics<- mk_political_constraints(ff_)
-  econ.df <- calc_econ_flows(ff_)
-  s.fam   <- combine_mods(ff_, b.df, econ.df, l.df, env.df, p.df, politics)
-  
+    
+    b.df    <- get_behaviour_pars(ff_, p_behaviour_intercept,p_tig_beta, p_max_CDR_delta)
+    l.df    <- get_logistics_pars(ff_)
+    env.df  <- get_envrionmental_constraint(ff_)
+    p.df    <- get_peat_limits(ff_)
+    politics<- mk_political_constraints(ff_, 
+                                        pp = list('woodland' = list('peat' = p_politics_woodland_peat, 'prime' = p_politics_woodland_prime), 
+                                                  'biomass'  = list('peat' = p_politics_biomass_peat, 'prime' = p_politics_biomass_prime)))
+    econ.df <- calc_econ_flows(ff_)
+    s.fam   <- combine_mods(ff_, b.df, econ.df, l.df, env.df, p.df, politics)
+    
   } else {
     
     s.fam <- ff_
@@ -491,6 +515,4 @@ land_allocation <- function(ff_, p_behaviour_intercept, p_tig_beta, p_max_CDR_de
   return(list(ff_ = list(unlist(s.fam), c('s_area', 's_LULC'))))
   
 }
-
-
 
