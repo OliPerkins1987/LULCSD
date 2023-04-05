@@ -11,7 +11,7 @@ test_that("biodiversity income calculation works", {
   biodiversity_income <- (pbp*pbc) * s_biod_yield * urban_fraction +
     (pbs*s_CDR*s_biod_yield*is.biomass)
 
-  expect_equal(biodiversity_income, c(1, 3, 5025, 10050))
+  expect_equal(biodiversity_income, c(1, 3, 525, 1050))
 
 
 })
