@@ -68,7 +68,7 @@ get_behaviour_pars <- function(sf, behaviour_offset,
       df$tig[, i] <- 1-(x[[i]]@s_parameters$s_subsidy/(x[[i]]@s_parameters$s_yield * x[[i]]@s_parameters$s_price * x[[i]]@s_parameters$s_margin +
                          x[[i]]@s_parameters$s_carbon_income + x[[i]]@s_parameters$s_biodiversity_income +
                            x[[i]]@s_parameters$s_subsidy)) * (1-df$tig[, i])
-      
+
       df$tig[, i] <- ifelse(df$tig[, i] < 0 & !is.na(df$tig[, i]), 0, df$tig[, i])
 
       df$tig[i, ] <- df$tig[, i]
