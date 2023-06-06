@@ -21,20 +21,20 @@ library(rhapsody)
 
 Load the sd model defined in the model vignette
 
-```
+```{r}
 
 ### load model object
-sd.mod <- init_model(stocks_from_key(s_key), flows_from_key(f_key),inputs_from_key(i_key, path = paste0(getwd(), '/data')), outputs_from_key(o_key), parameter_list = list(p_land_trans = 0.0005, p_price_update= 0.05), initial_stock_vals = start_vals, run = list(nsteps = 31, step = 1990), load_stock_dat = F)
+sd.mod <- init_model(stocks_from_key(s_key), flows_from_key(f_key),inputs_from_key(i_key, path = paste0(stringr::str_replace(getwd(), "/vignettes", ""), '/data')), outputs_from_key(o_key), parameter_list = list(p_land_trans = 0.0005, p_price_update= 0.05), initial_stock_vals = start_vals, run = list(nsteps = 5, step = 1990), load_stock_dat = F)
 
 ### load flow functions
-source(paste0(getwd(), '/data/example_flows.R'))
+source(paste0(stringr::str_replace(getwd(), "/vignettes", ""), '/data/example_flows.R'))
 
 ```
 
 Now, let's build an experiment to define our parameter ranges against observations
 
 
-```
+```{r}
 
 Priors <- data.frame(p_land_trans = runif(1000, 0.00001, 0.001), p_price_update = runif(1000, 0.01, 0.1))
 sd.exp <- Experiment(sd.mod, Priors, start_vals, nrow(Priors))
@@ -45,14 +45,14 @@ sd.exp <- Experiment(sd.mod, Priors, start_vals, nrow(Priors))
 Now, let's run the experiment and define our posterior parameter ranges against observations
 
 
-```
+```{r}
 
-sd.exp     <- run_experiment(sd.exp)
+sd.exp     <- run_experiment(sd.exp) #running this line takes approx. 20mins
 
 ### make some fake historical observations
 
-dat   <- data.frame(soybean_area = seq(1000, 500000, by = (500000-1000)/30), forest_area = seq(1000000, 500000, by = 0-(500000/30)))
-noise <- sapply(seq(1000, 500000, by = (500000-1000)/30), function(z) {rnorm(1, z, z/3)})
+dat   <- data.frame(soybean_area = seq(1000, 500000, by = (500000-1000)/4), forest_area = seq(1000000, 500000, by = 0-(500000/4)))
+noise <- sapply(seq(1000, 500000, by = (500000-1000)/4), function(z) {rnorm(1, z, z/3)})
 dat$soybean_area <- dat$soybean_area + noise
 dat$forest_area  <- dat$forest_area - noise
 
@@ -68,5 +68,7 @@ summary(Priors[result$runs, ])
 ### visually check model outputs
 plot(unlist(sd.exp@results[[as.numeric(result$runs[1])]][[1]]@o_outputs), dat$soybean_area)
 abline(0, 1)
+
+#would be nice to add some axis title to this plot - especially for the x axis
 
 ```
