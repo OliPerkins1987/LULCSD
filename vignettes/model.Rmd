@@ -22,7 +22,7 @@ library(rhapsody)
 
 First build model stock & flow, input & output keys
 
-```
+```{r}
 
 s_key <- data.frame(s_type = c('stock', 'stock'), s_name = c('s_soybean', 's_forest'), s_family = c('cropland', 'forest'), s_id = c('s1','s2'), s_flow_out = c('s_soybean', 's_soybean, s_forest'), s_flow_in = c('i_soybean_demand', ''), s_parameters = c('area, yield, price', 'area'), s_internal_pars = c('', ''))
 
@@ -39,17 +39,17 @@ start_vals <- data.frame(Object = c('s_soybean', 's_forest', 's_soybean', 's_soy
 
 Now initialise the model and read flows
 
-```
-sd.mod <- init_model(stocks_from_key(s_key), flows_from_key(f_key), inputs_from_key(i_key, path = paste0(getwd(), '/data')), outputs_from_key(o_key), parameter_list = list(p_land_trans = 0.0005, p_price_update= 0.05), initial_stock_vals = start_vals, run = list(nsteps = 31, step = 1990), load_stock_dat = F)
+```{r}
+sd.mod <- init_model(stocks_from_key(s_key), flows_from_key(f_key), inputs_from_key(i_key, path = paste0(stringr::str_replace(getwd(), "/vignettes", ""), '/data')), outputs_from_key(o_key), parameter_list = list(p_land_trans = 0.0005, p_price_update= 0.05), initial_stock_vals = start_vals, run = list(nsteps = 5, step = 1990), load_stock_dat = F)
 
 
-source(paste0(getwd(), '/data/example_flows.R'))
+source(paste0(stringr::str_replace(getwd(), "/vignettes", ""), '/data/example_flows.R'))
 
 ```
 
 Now run the model and explore outputs
 
-```
+```{r}
 sd.mod <- run_mod(sd.mod)
 
 plot(unlist(sd.mod@outputs[[1]]@o_outputs))
